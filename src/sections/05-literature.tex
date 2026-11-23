@@ -1,0 +1,167 @@
+% =====================================================================
+% 5. Literature and Technology Review (Progress to Date)
+% =====================================================================
+\section{Literature and Technology Review}
+\label{sec:literature}
+
+The review is organised in six themes: the human-factors basis for supervisory displays, digital twins, alarm management, signal conditioning, dashboard design and analytical evaluation, and the technologies available to build the artefact.
+Each theme ends with what it implies for the design.
+
+\subsection{Supervisory control and situation awareness}\label{subsec:supervisory-control-and-situation-awareness}
+In supervisory control, a human monitors an automated process and intervenes intermittently rather than controlling it directly~\cite{sheridan1992telerobotics}.
+Parasuraman, Sheridan and Wickens~\cite{parasuraman2000model} decompose automation into information acquisition, analysis, decision selection and action implementation.
+A read-only dashboard automates only the first two stages, which keeps the engineer responsible for every judgement about the test.
+Endsley's model of situation awareness~\cite{endsley1988design,endsley1995toward} separates perception, comprehension and projection, and gives a vocabulary for what each role needs: an engineer needs perception of individual cell signals, while a project lead mainly needs comprehension of whether the test is on track.
+Ecological interface design~\cite{vicente1992ecological} argues that displays should make the constraints of the work domain visible, for example showing cell voltages against their safe operating limits rather than as bare numbers.
+The Proximity Compatibility Principle~\cite{wickens1995proximity} states that information used together should be displayed close together, which informs layout.
+
+Two cautions recur.
+Opaque or over-trusted automation produces complacency and automation bias~\cite{parasuraman2010complacency}, which is a real risk if smoothing hides a fault the operator then fails to notice.
+And operators supervising many entities under high load shed attention unevenly~\cite{cummings2007operator}, which matters if several rigs run in parallel.
+
+\textbf{Gap.} This literature was developed for cockpits, control rooms and uninhabited vehicles, where the operator controls a physical process.
+In verification engineering the operator supervises a test against a specification, often over many hours and for audiences with very different expertise.
+The review so far has found little work evaluating test-and-measurement software against these principles. \todoin{Confirm this gap with a targeted search (Scopus/IEEE Xplore: ``test bench'' OR ``hardware-in-the-loop'' AND dashboard AND ``situation awareness'') and cite the closest prior work.}
+
+\subsection{Digital twins and digital shadows}\label{subsec:digital-twins-and-digital-shadows}
+Kritzinger et al.~\cite{kritzinger2018digital} classify digital representations by data flow: a \emph{digital model} has no automatic data exchange, a \emph{digital shadow} receives data automatically from the physical object but does not act on it, and a \emph{digital twin} exchanges data in both directions.
+The artefact is deliberately a digital shadow.
+One-way flow is both a research choice and a safety requirement: the partner's brief forbids the GUI from affecting running tests, and a system with no write path to the rig cannot affect it by design.
+Battery digital twins in the literature mostly target state estimation and degradation prediction rather than test monitoring. \todoin{Cite one or two recent battery digital-twin reviews to support this statement.}
+
+\subsection{Alarm management and alert design}\label{subsec:alarm-management-and-alert-design}
+The process industries codified alarm-management practice after incidents where operators were overwhelmed by alarms.
+ANSI/ISA-18.2~\cite{isa2016alarm}, its international equivalent IEC~62682~\cite{iec62682}, and EEMUA~191~\cite{eemua2013alarm} define an alarm lifecycle, rationalisation, prioritisation and performance metrics.
+These include average alarm rate per operator, the share of time spent in \emph{alarm floods}, chattering alarms (repeatedly entering and leaving the alarm state) and stale alarms.
+Aircraft crew-alerting systems use a comparable hierarchy of warnings, cautions and advisories, coded by colour and urgency, and structure the response to complex failures around the aircraft's remaining capabilities~\cite{mumaw2018managing}.
+
+The artefact adopts the four-tier colour hierarchy from crew alerting (red warning, amber caution, blue advisory, green normal) and three mechanisms from alarm management: deduplication, hysteresis (deadbands so a signal near a threshold does not chatter), and shelving (temporarily suppressing a known alarm).
+ISA-18.2 and EEMUA~191 also provide the quantitative benchmarks against which RQ3 is judged (Section~\ref{sec:evaluation}).
+
+\textbf{Critique.} These benchmarks were designed for continuously staffed control rooms and are expressed per operator.
+A verification rig may be watched only intermittently, so the benchmarks are used as a conservative reference, not a regulatory target.
+
+\subsection{Signal conditioning}\label{subsec:signal-conditioning}
+The brief requires filtering ``to avoid misrepresenting short spikes or noise'', which is a direct trade-off.
+Moving-average and exponential filters suppress white noise cheaply but blur and delay step changes.
+Median filters and the Hampel identifier~\cite{hampel1974influence} reject isolated outliers while preserving edges, but can also reject a genuine one-sample spike.
+Savitzky--Golay filters~\cite{savitzky1964smoothing} preserve peak shape better than a moving average of the same width.
+The Kalman filter~\cite{kalman1960new} is optimal for linear Gaussian systems and is widely used in BMS state estimation~\cite{plett2015battery}, but requires a process and noise model and its behaviour depends on tuning.
+No single filter is best for all faults.
+This motivates RQ2: comparing strategies empirically on seeded faults, and showing raw and conditioned signals side by side so that smoothing never silently hides a transient.
+
+\subsection{Dashboard design and analytical evaluation}\label{subsec:dashboard-design-and-analytical-evaluation}
+Few~\cite{few2013dashboard} defines a monitoring dashboard as a single-screen display of the information needed to achieve objectives, and argues for high data-ink ratio and restraint in decoration.
+This is relevant because the partner's brief also asks for a polished display to impress customers, and the two goals must be balanced.
+Sarikaya et al.~\cite{sarikaya2019dashboards} show that ``dashboard'' covers many genres with different purposes, which supports designing distinct role views rather than one display for all.
+
+Because the project has no user study, interface quality is assessed analytically.
+The Keystroke-Level Model (KLM)~\cite{card1980keystroke} predicts expert, error-free task time by summing standard operator times (Table~\ref{tab:klm}). The feature-congestion measure of Rosenholtz et al.~\cite{rosenholtz2007clutter} estimates visual clutter computationally from an image.
+WCAG~2.2~\cite{w3c2023wcag} defines testable accessibility criteria, a subset of which can be checked automatically.
+
+\begin{table}[H]
+    \centering\small
+    \caption{KLM operator times used for task-time predictions, from Card, Moran and Newell~\cite{card1980keystroke}.}
+    \label{tab:klm}
+    \begin{tabularx}{0.8\textwidth}{llY}
+\toprule
+Operator & Time (s) & Meaning                                           \\
+\midrule
+K        & 0.20     & Keystroke or button press (skilled typist)        \\
+P        & 1.10     & Point to a target with a mouse                    \\
+H        & 0.40     & Home hands between keyboard and mouse             \\
+M        & 1.35     & Mental preparation                                \\
+R        & varies   & System response time (measured from the artefact) \\
+\bottomrule
+    \end{tabularx}
+\end{table}
+
+\textbf{Critique.} KLM models skilled, error-free performance and says nothing about comprehension or perceived workload.
+Subjective workload instruments such as NASA-TLX~\cite{hart2006nasa} would address this, but their construct validity has been questioned~\cite{babaei2025nasatlx}, and they require participants.
+Automated accessibility checks cover only part of WCAG, so a manual checklist is also needed.
+These limits are acknowledged in the threats to validity.
+
+\subsection{Existing tools and technology choices}
+\label{subsec:tech}
+
+\textbf{Existing tools.} HIL vendors ship instrumentation software (for example dSPACE ControlDesk and NI VeriStand) that is designed for engineers configuring and controlling tests rather than for role-based or customer-facing presentation, and it is tied to the vendor's platform.
+General-purpose observability tools such as Grafana are the strongest alternative: they provide time-series panels, alert rules and role-based access with little code.
+A custom build is justified here only because the research requires control that such tools do not easily give: custom signal-conditioning pipelines evaluated against ground truth, the specific alert-tier semantics, and role views designed for task-time analysis.
+Grafana is therefore treated as a \textbf{baseline} for comparison, not dismissed. \todoin{Cite vendor documentation for ControlDesk, VeriStand and Grafana, and confirm whether the STT already uses any of them.}
+
+Tables~\ref{tab:tech-transport}--\ref{tab:tech-chart} summarise the main technology decisions.
+Choices marked ``provisional'' will be fixed by the prototype benchmarks in Experiment~1.
+
+\begin{table}[H]
+    \centering\small
+    \caption{Browser transport options.}
+    \label{tab:tech-transport}
+    \begin{tabularx}{\textwidth}{lYYl}
+        \toprule
+        Option                               & Strengths                                                       & Weaknesses                                               & Decision        \\
+        \midrule
+        WebSocket~\cite{rfc6455}             & Full-duplex, low overhead per message, widely supported & Needs connection management and back-pressure handling & \textbf{Chosen} \\
+        Server-Sent Events~\cite{whatwg-sse} & Simple, one-way (matches a digital shadow), automatic reconnect & Text only; per-domain connection limits under HTTP/1.1 & Fallback \\
+        HTTP polling                         & Simplest; stateless                                             & Latency bounded by poll interval; wasteful at high rates & Rejected \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering\small
+    \caption{Ingestion from the test rig.}
+    \label{tab:tech-ingest}
+    \begin{tabularx}{\textwidth}{lYYl}
+        \toprule
+        Option                                                          & Strengths                                                & Weaknesses                                                      & Decision                  \\
+        \midrule
+        Read-only DB polling                                            & No change to the rig; uses existing logs                 & Latency set by poll interval; load on the rig database & Likely first live adapter \\
+        Message broker (MQTT~\cite{mqtt5}, Kafka~\cite{kreps2011kafka}) & Decouples producer and consumer; scales to parallel rigs & Requires the rig to publish, i.e.\ a change on the partner side & If STT already publishes \\
+        Direct rig API                                                  & Lowest latency                                           & Depends on STT interface; tightest coupling                     & Depends on STT            \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+The Adapter pattern~\cite{gamma1994design} makes this decision reversible: each option is one adapter behind the same interface (Section~\ref{sec:design}).
+
+\begin{table}[H]
+    \centering\small
+    \caption{Time-series storage (provisional).}
+    \label{tab:tech-store}
+    \begin{tabularx}{\textwidth}{lYYl}
+        \toprule
+        Option              & Strengths                                                                                     & Weaknesses                                                                 & Decision             \\
+        \midrule
+        TimescaleDB         & PostgreSQL with SQL, joins and time partitioning; one database for runs, metadata and samples & Some features under a non-Apache licence & \textbf{Provisional} \\
+        InfluxDB            & Purpose-built for time series; high ingest rate                                               & Separate query language and data model; licensing changed between versions & Alternative \\
+        Files (Parquet/CSV) & Simple, portable; ideal for replay corpora                                                    & No live queries                                                            & Used for replay data \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering\small
+    \caption{Front end and charting.}
+    \label{tab:tech-chart}
+    \begin{tabularx}{\textwidth}{lYYl}
+        \toprule
+        Option                                     & Strengths                                                                                                            & Weaknesses                                                      & Decision        \\
+        \midrule
+        React + canvas-based chart library         & Full control of role views; existing React/TypeScript experience; canvas scales to high point counts better than SVG & More code than an off-the-shelf tool & \textbf{Chosen} \\
+        Grafana                                    & Fast to build; mature alerting and access control                                                                    & Limited control over custom pipelines and role-specific layouts & Baseline \\
+        Python dashboards (Plotly Dash, Streamlit) & Same language as backend                                                                                             & Weaker for high-rate streaming and custom interaction & Rejected \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+Plotting every raw sample is unnecessary because a screen has a finite number of pixels.
+Visualisation-oriented downsampling such as Largest-Triangle-Three-Buckets (LTTB)~\cite{steinarsson2013downsampling} and M4~\cite{jugel2014m4} preserves visual extrema while sending far fewer points, which is important for RQ1. M4 keeps each interval's minimum and maximum, so a short spike remains visible, which also supports RQ2.
+
+\subsection{Remaining review}\label{subsec:remaining-review}
+\begin{itemize}
+    \item Prior work applying supervisory-control or alarm-management principles to test-and-measurement software (to confirm the gap).
+    \item Recent battery digital-twin and BMS fault-detection reviews (2020--2026), and the BMS fault classes relevant to the STT\@.
+    \item Published benchmarks for WebSocket and time-series database performance, to replace provisional choices with evidence.
+    \item Evidence on how much of WCAG automated tools detect; modern KLM extensions.
+    \item Public battery datasets suitable for replay, and their licences.
+\end{itemize}

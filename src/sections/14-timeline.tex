@@ -1,0 +1,54 @@
+% =====================================================================
+% 14. Plan for Completion and Timeline
+% =====================================================================
+\section{Plan for Completion and Timeline}
+\label{sec:timeline}
+
+Figure~\ref{fig:gantt} shows the plan for the remaining work, in weeks counted from the interim submission.
+Research activities are in blue; company activities (grey) are shown only to make the shared workload visible.
+The plan includes two weeks for partner review of the dissertation, required by the confidentiality agreement, and a two-week buffer.
+
+\todoin{Replace week numbers with real dates once the final submission deadline is confirmed, and check that the company milestones match the partner's schedule.}
+
+\begin{figure}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{ganttchart}[
+            hgrid, vgrid={*1{draw=black!15}},
+            x unit=0.62cm, y unit chart=0.55cm, y unit title=0.6cm,
+            title height=1,
+            title label font=\scriptsize\bfseries,
+            bar label font=\small, group label font=\small\bfseries,
+            milestone label font=\small\itshape,
+            bar/.append style={fill=accent!70, draw=accent},
+            group/.append style={fill=black!70},
+            milestone/.append style={fill=orange!90!black, draw=orange!60!black},
+            bar height=0.55, group peaks height=0.2,
+        ]{1}{16}
+  \gantttitlelist{1,...,16}{1} \\
+  \ganttgroup{Build}{1}{8} \\
+  \ganttbar{Live-rig adapter (if access granted)}{1}{3} \\
+  \ganttbar{Filters, KPI and alert engines}{1}{5} \\
+  \ganttbar{Role views and demo replay}{3}{8} \\
+  \ganttmilestone{M1: Feature freeze}{8} \\
+  \ganttgroup{Evaluation}{6}{12} \\
+  \ganttbar{Exp.\ 1: Performance}{6}{8} \\
+  \ganttbar{Exp.\ 2: Filtering fidelity}{7}{9} \\
+  \ganttbar{Exp.\ 3: Alert burden}{9}{10} \\
+  \ganttbar{Exp.\ 4: Analytical UI evaluation}{10}{11} \\
+  \ganttbar{Analysis}{11}{12} \\
+  \ganttmilestone{M2: Evaluation complete}{12} \\
+  \ganttgroup{Company (not assessed)}{8}{11} \\
+  \ganttbar[bar/.append style={fill=black!25, draw=black!40}]{Deployment, training, go-live}{8}{11} \\
+  \ganttgroup{Write-up}{1}{16} \\
+  \ganttbar{Continuous writing}{1}{11} \\
+  \ganttbar{First full draft}{11}{13} \\
+  \ganttmilestone{M3: Draft to supervisor and partner}{13} \\
+  \ganttbar{Partner review and supervisor feedback}{13}{14} \\
+  \ganttbar{Revisions and buffer}{15}{16} \\
+  \ganttmilestone{M4: Final submission}{16}
+        \end{ganttchart}%
+    }
+    \caption{Plan for completion (weeks from interim submission).}
+    \label{fig:gantt}
+\end{figure}

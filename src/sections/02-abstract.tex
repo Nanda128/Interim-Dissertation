@@ -1,0 +1,15 @@
+% =====================================================================
+% 2. Abstract / Executive Summary (150-250 words)
+% =====================================================================
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+
+Hardware-in-the-loop (HIL) rigs used to verify battery management systems (BMS) produce high-rate sensor data, but engineers at the industry partner, Analog Devices, currently read that data through raw logs, engineering software and offline scripts.
+This slows anomaly detection during long validation runs and makes results hard to present to project leads and customers.
+A useful monitoring dashboard must meet three competing needs: connect to a live test platform without disturbing it, show noisy signals without hiding genuine faults, and alert operators without flooding them.
+
+This project designs and evaluates a role-adaptive \emph{digital shadow} dashboard for BMS verification.
+It combines a read-only, adapter-based streaming pipeline, a configurable signal-conditioning layer, a four-tier alert hierarchy governed by alarm-management rules, and views tailored to test engineers, project leads and customer demonstrations.
+Following Design Science Research, the artefact is evaluated without human participants, through four system-centred experiments on replayed and synthetic traces with seeded faults: pipeline performance, filtering fidelity, alert burden, and an analytical interface evaluation using the Keystroke-Level Model, a visual-clutter metric and a WCAG~2.2 audit.
+
+To date, requirements have been derived from the partner's project brief, the architecture and evaluation protocol have been designed, and success criteria have been set for each research question. \todoin{Replace with one sentence on what has been built and any preliminary result, e.g.\ ``A two-KPI prototype streams replayed traces end to end with a median latency of N\,ms.'' Keep the abstract at 150--250 words.}

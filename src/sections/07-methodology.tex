@@ -1,0 +1,41 @@
+% =====================================================================
+% 7. Methodology and Development Approach
+% =====================================================================
+\section{Methodology and Development Approach}
+\label{sec:methodology}
+
+\subsection{Research design}\label{subsec:research-design}
+The project follows Design Science Research~\cite{hevner2004design}: an artefact is built to solve an identified problem and is then evaluated rigorously, contributing both a usable artefact and knowledge about its design.
+Hevner et al.'s guidelines map onto the project as follows: the \emph{problem relevance} comes from the partner's brief; the \emph{artefact} is the dashboard and its reference architecture; \emph{evaluation} uses controlled experiments and analytical methods; the \emph{research contribution} is evidence on the four RQs; and \emph{rigour} comes from seeded ground truth, scripted measurement and pre-defined success criteria.
+
+Evaluation is entirely \textbf{system-centred}.
+Every experiment runs on replayed recorded traces or synthetic traces with seeded faults of known type, amplitude and timing, so each result has ground truth and can be reproduced by re-running a script.
+
+\subsection{Data}\label{subsec:data}
+\begin{itemize}
+    \item \textbf{Synthetic traces} from a BMS simulator written for this project, with configurable cell count, sample rate, noise and seeded faults (spikes, drifts, dropouts, over-voltage, imbalance).
+    \item \textbf{Public battery datasets}, such as the NASA Ames battery data set~\cite{saha2007battery}, replayed as realistic background signals.
+    \item \textbf{Partner traces}, used internally where the partner allows.
+    Results reported in the dissertation will use synthetic or public data, or normalised partner data if permitted.
+\end{itemize}
+
+\subsection{Development process}\label{subsec:development-process}
+Development is iterative and issue-driven.
+Each feature is a GitHub issue with explicit acceptance criteria, tracked on a Kanban board.
+Work runs in two-week iterations, each ending with a short demonstration to the STT and a check-in with the supervisor.
+
+\begin{itemize}
+    \item \textbf{Languages and frameworks:} Python with FastAPI for ingestion and processing; React with TypeScript for the front end; WebSockets for streaming (Section~\ref{subsec:tech}).
+    \item \textbf{Version control:} Git with short-lived feature branches merged into \texttt{main} by pull request; Conventional Commits messages.
+    \item \textbf{Code review:} pull requests self-reviewed against a checklist; the STT reviews code that touches partner interfaces.
+    \item \textbf{CI:} GitHub Actions running linting, type checks (mypy, \texttt{tsc}), unit tests (pytest, Vitest), and accessibility checks (axe-core) on every pull request.
+    \item \textbf{Documentation:} architecture decision records (ADRs) for each significant decision; API documentation generated from the FastAPI schema.
+\end{itemize}
+
+\todoin{Adjust the tools above to what you actually use, and check whether ADI's IT policy requires the artefact code to live on an internal Git server instead of GitHub.}
+
+\subsection{Ethics}\label{subsec:ethics}
+The project involves no human participants and processes no personal data.
+Requirements meetings with the partner are part of normal engineering work, and their content is not analysed as research data.
+Feedback sessions, training and customer dry-runs in the partner's plan are company activities whose outcomes are excluded from the dissertation.
+On this basis, university ethics approval is not required. \todoin{Confirm this with the supervisor and record the outcome here. If any feedback is to be reported as data, apply for ethics approval first.}

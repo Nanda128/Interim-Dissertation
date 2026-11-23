@@ -1,0 +1,41 @@
+% =====================================================================
+% 17. Appendices
+% =====================================================================
+\section{Requirements Traceability}
+\label{sec:trace}
+
+\begin{table}[H]
+    \centering\small
+    \caption{Traceability from the partner brief to requirements, research questions and evaluation.}
+    \begin{tabularx}{\textwidth}{YllY}
+\toprule
+Partner brief objective                           & Requirements   & RQ  & Evaluated by              \\
+\midrule
+Aggregate BMS KPIs in real time                   & FR2, FR4, NFR2 & RQ1 & Experiment 1              \\
+Integrate without impacting tests                 & FR1, FR3, NFR1 & RQ1 & Experiment 1 (overhead)   \\
+Filtering without misrepresenting spikes or noise & FR5, NFR4      & RQ2 & Experiment 2              \\
+Quicker anomaly detection in long runs            & FR6            & RQ3 & Experiment 3              \\
+Multiple user roles and demo mode                 & FR7, FR8, FR10 & RQ4 & Experiment 4              \\
+Modular and scalable design                       & NFR3, NFR7     & RQ1 & Experiment 1; code review \\
+Test selection and run status                     & FR9            & --  & Acceptance test           \\
+\bottomrule
+    \end{tabularx}\label{tab:table}
+\end{table}
+
+
+\section{Meeting Log}\label{sec:meeting-log}
+\begin{table}[H]
+    \centering\small
+    \begin{tabularx}{\textwidth}{llY}
+        \toprule
+        Date          & With       & Outcome and actions                                              \\
+        \midrule
+        \todoin{date} & Supervisor & \todoin{e.g.\ agreed hybrid project type, format, ethics status} \\
+        \todoin{date} & STT        & \todoin{e.g.\ confirmed KPI list and data interface}             \\
+        \bottomrule
+    \end{tabularx}\label{tab:table2}
+\end{table}
+
+
+\section{Architecture Decision Records}\label{sec:architecture-decision-records}
+\todoin{List ADRs from the artefact repository (title, date, status), e.g.\ ADR-001 Read-only adapter boundary; ADR-002 WebSocket transport; ADR-003 Time-series store.}

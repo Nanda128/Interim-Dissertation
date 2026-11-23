@@ -1,0 +1,60 @@
+% High-level architecture: three layers, adapters, one-way data flow.
+\begin{tikzpicture}[
+  font=\small,
+  box/.style={draw=accent, fill=accent!8, rounded corners=2pt, align=center, minimum height=0.9cm, text width=2.6cm},
+  ext/.style={draw=black!50, fill=black!5, rounded corners=2pt, align=center, minimum height=0.9cm, text width=2.6cm},
+  layer/.style={draw=black!25, dashed, rounded corners=4pt, inner sep=6pt},
+  lbl/.style={font=\footnotesize\bfseries\color{black!60}, anchor=south west},
+  flow/.style={-{Stealth[length=2.2mm]}, thick, accent},
+  node distance=0.45cm and 0.6cm
+]
+% Sources
+\node[ext] (rig) {STT test rig\\\footnotesize(read-only)};
+\node[ext, below=of rig] (sim) {BMS simulator};
+\node[ext, below=of sim] (rep) {Recorded traces\\\footnotesize(files)};
+
+% Ingestion
+\node[box, right=1.2cm of rig] (a1) {Live-rig adapter};
+\node[box, right=1.2cm of sim] (a2) {Simulator adapter};
+\node[box, right=1.2cm of rep] (a3) {Replay adapter};
+
+% Processing
+\node[box, right=1.2cm of a1] (cal) {Calibration\\\footnotesize(STT logic)};
+\node[box, below=of cal] (cond) {Signal conditioning};
+\node[box, below=of cond] (kpi) {KPI engine};
+\node[box, below=of kpi] (alert) {Alert engine\\\footnotesize(4 tiers + rules)};
+\node[box, below=0.45cm of a3] (store) {Time-series store};
+
+% Presentation
+\node[box, right=1.2cm of cond] (ws) {WebSocket\\gateway};
+\node[box, above=of ws] (eng) {Engineer view};
+\node[box, below=of ws] (lead) {Project-lead view};
+\node[box, below=of lead] (demo) {Demo view};
+
+% Layers
+\begin{scope}[on background layer]
+\node[layer, fit=(a1)(a3)] (L1) {};
+\node[layer, fit=(cal)(alert)] (L2) {};
+\node[layer, fit=(eng)(demo)(ws)] (L3) {};
+\end{scope}
+\node[lbl] at (L1.north west) {Ingestion};
+\node[lbl] at (L2.north west) {Processing};
+\node[lbl] at (L3.north west) {Presentation};
+
+% Flows
+\draw[flow] (rig) -- (a1);
+\draw[flow] (sim) -- (a2);
+\draw[flow] (rep) -- (a3);
+\draw[flow] (a1.east) -- (cal.west);
+\draw[flow] (a2.east) -| ([xshift=-0.3cm]cal.west) -- (cal.west);
+\draw[flow] (a3.east) -| ([xshift=-0.3cm]cal.west);
+\draw[flow] (cal) -- (cond);
+\draw[flow] (cond) -- (kpi);
+\draw[flow] (kpi) -- (alert);
+\draw[flow] (kpi.east) -- ++(0.35,0) |- (ws.west);
+\draw[flow] (alert.east) -- ++(0.35,0) |- (ws.west);
+\draw[flow] (ws) -- (eng);
+\draw[flow] (ws) -- (lead);
+\draw[flow] (ws.east) -- ++(0.25,0) |- (demo.east);
+\draw[flow, black!50] (kpi.west) -- ++(-0.5,0) |- (store.east);
+\end{tikzpicture}

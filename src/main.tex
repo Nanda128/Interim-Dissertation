@@ -1,18 +1,114 @@
-%! Author = User
+%! Author = Nandakishore Vinayakrishnan
 %! Date = 22/11/2026
+% =====================================================================
+%  MSc Dissertation Interim Report
+%  Build (from src/):  latexmk -pdf main.tex
+%     or:  pdflatex main -> bibtex main -> pdflatex main -> pdflatex main
+%
+%  Red boxed [TODO] notes mark text that must be completed or checked
+%  before submission. Set \drafttrue to \draftfalse to hide them, then
+%  check the PDF for any remaining gaps.
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
 
-% Preamble
-\documentclass[11pt]{article}
-
-% Packages
+% ---------- Packages ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\IfFileExists{lmodern.sty}%
+{\usepackage{lmodern}\usepackage{microtype}}%
+{\usepackage[expansion=false]{microtype}}
+\usepackage[margin=2.5cm]{geometry}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,fit,backgrounds,shapes.geometric}
+\usepackage{pgfgantt}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cite}
 
-% Document
+% ---------- Styling ----------
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{todo}{HTML}{C00000}
+\definecolor{codebg}{HTML}{F5F7FA}
+\titleformat{\section}{\large\bfseries\color{accent}}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{2em}
+\setlist{itemsep=2pt, topsep=4pt}
+\renewcommand{\arraystretch}{1.2}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\captionsetup{font=small, labelfont=bf}
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    backgroundcolor=\color{codebg},
+    frame=single, rulecolor=\color{black!15},
+    breaklines=true, columns=fullflexible,
+    keywordstyle=\color{accent}\bfseries,
+    commentstyle=\color{black!55}\itshape,
+    showstringspaces=false
+}
+
+% ---------- Draft markers ----------
+\newif\ifdraft
+\drafttrue
+\renewcommand{\todo}[1]{\ifdraft{\color{todo}\fbox{\parbox{0.96\linewidth}{\footnotesize\textbf{TODO:} #1}}}\fi}
+\newcommand{\todoin}[1]{\ifdraft{\color{todo}\footnotesize[\textbf{TODO:} #1]}\fi}
+
+% ---------- Administrative details (edit here) ----------
+\newcommand{\reporttitle}{Role-Adaptive Digital Shadow Dashboard for Real-Time Battery Management System Verification}
+\newcommand{\studentname}{Nandakishore Vinayakrishnan}
+\newcommand{\studentid}{23070854}
+\newcommand{\programme}{MSc Immersive Software Engineering}
+\newcommand{\supervisorname}{[Supervisor Name]}
+\newcommand{\supervisoremail}{[email]@ul.ie}
+\newcommand{\industrypartner}{Analog Devices, BMS System Test Team (STT)}
+\newcommand{\artefactrepo}{\url{https://github.com/Nanda128/[artefact-repo]}}
+\newcommand{\reportrepo}{\url{https://github.com/Nanda128/Interim-Dissertation}}
+\newcommand{\wordcount}{[word count]}
+\newcommand{\submissiondate}{December 2026}
+
+\hypersetup{pdftitle={Interim Report: \reporttitle}, pdfauthor={\studentname}}
+
 \begin{document}
 
+    \input{sections/01-title}
+    \input{sections/02-abstract}
 
+    \tableofcontents
+    \clearpage
 
+    \input{sections/03-introduction}
+    \input{sections/04-aims}
+    \input{sections/05-literature}
+    \input{sections/06-requirements}
+    \input{sections/07-methodology}
+    \input{sections/08-design}
+    \input{sections/09-implementation}
+    \input{sections/10-evaluation}
+    \input{sections/11-risks}
+    \input{sections/12-professional}
+    \input{sections/13-reflection}
+    \input{sections/14-timeline}
+    \input{sections/15-structure}
+
+    \clearpage
+    \bibliographystyle{ieeetr}
     \bibliography{main}
-    \bibliographystyle{plain}
+
+    \clearpage
+    \appendix
+    \input{sections/17-appendices}
 
 \end{document}

@@ -3,3 +3,17 @@ out
 *.pdf
 Interim-Dissertation.iml
 .idea/
+
+# LaTeX build intermediates
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.lol
+*.fls
+*.fdb_latexmk
+*.synctex.gz

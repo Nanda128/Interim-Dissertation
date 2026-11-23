@@ -1,0 +1,62 @@
+% =====================================================================
+% 4. Aims, Objectives and Research Questions
+% =====================================================================
+\section{Aims, Objectives and Research Questions}
+\label{sec:aims}
+
+\subsection{Aim}\label{subsec:aim}
+To design, build and evaluate a read-only, role-adaptive digital shadow dashboard that gives engineers, project leads and customers timely and faithful insight into BMS verification tests without affecting the test platform.
+
+This is a \textbf{hybrid} project: four research questions are answered using a working artefact as the object of evaluation.
+
+\subsection{Research questions}\label{subsec:research-questions}
+\begin{description}[leftmargin=1.2em, labelindent=0pt, font=\normalfont\bfseries]
+  \item[RQ1 (Architecture):] Can a read-only, adapter-based streaming pipeline deliver near-real-time KPIs from a BMS test platform without measurably degrading the platform's own operation?
+  \item[RQ2 (Data fidelity):] Which signal-conditioning strategies best suppress measurement noise while preserving genuine fault transients?
+  \item[RQ3 (Alert management):] Can a tiered alert hierarchy with alarm-management rules keep alert burden within industrial benchmarks without missing critical faults?
+  \item[RQ4 (Presentation):] Do role-adaptive views measurably reduce predicted task time and visual clutter while meeting accessibility requirements?
+\end{description}
+
+\subsection{Objectives}\label{subsec:objectives}
+Each objective is measurable and maps to a research question.
+Provisional success criteria are given in Table~\ref{tab:success} (Section~\ref{sec:evaluation}).
+
+\begin{enumerate}[label=\textbf{O\arabic*}]
+  \item Derive and document functional and non-functional requirements from the partner's brief (all RQs).
+  \item Implement a data-source abstraction with at least three interchangeable adapters: simulator, file replay and live rig (RQ1).
+  \item Build a replayable corpus of traces with seeded spikes, drifts and dropouts of known type and timing (RQ2, RQ3).
+  \item Implement and compare at least four signal-conditioning strategies (RQ2).
+  \item Implement a four-tier alert engine with deduplication, hysteresis and shelving (RQ3).
+  \item Implement engineer, project-lead and demonstration views over a shared component library (RQ4).
+  \item Run the four experiments in Section~\ref{sec:evaluation} and report results against the success criteria.
+\end{enumerate}
+
+\subsection{Changes since the proposal}\label{subsec:changes-since-the-proposal}
+The research questions and evaluation design are unchanged.
+Three clarifications have been made:
+\begin{itemize}
+    \item \textbf{Research and company deliverables are now separated.} The proposal timeline followed the partner's 16-week rollout plan (deployment, training, go-live).
+    Those activities remain part of the job but are not research outputs and are not assessed here.
+    The revised plan (Section~\ref{sec:timeline}) schedules the four experiments explicitly.
+    Table~\ref{tab:deliverables} lists the two sets of deliverables.
+    \item \textbf{No human participants.} Feedback sessions, training and customer dry-runs in the partner's plan are treated as normal engineering activities.
+    Their outcomes are not used as research data, so no ethics approval is required (Section~\ref{sec:methodology}).
+    \item \textbf{Benchmarks for RQ3 are named.} Alert burden is measured against ANSI/ISA-18.2~\cite{isa2016alarm} and EEMUA~191~\cite{eemua2013alarm}.
+\end{itemize}
+
+\begin{table}[H]
+    \centering\small
+    \caption{Separation of company and research deliverables. Only the research column is assessed.}
+    \label{tab:deliverables}
+    \begin{tabularx}{\textwidth}{YY}
+        \toprule
+        \textbf{Company deliverable (job)}   & \textbf{Research deliverable (dissertation)}         \\
+        \midrule
+        GUI deployed on the STT environment  & Generic reference architecture and adapter interface \\
+        Live connection to the rig           & Simulator and replay data sources                    \\
+        Training sessions and user guide     & Experiment scripts and seeded-fault datasets         \\
+        Customer demo branding and rehearsal & Analytical interface evaluation (RQ4)                \\
+        Go-live sign-off                     & Results for RQ1--RQ4 against success criteria        \\
+        \bottomrule
+    \end{tabularx}
+\end{table}

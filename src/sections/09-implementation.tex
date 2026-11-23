@@ -1,0 +1,39 @@
+% =====================================================================
+% 9. Implementation Progress to Date
+% =====================================================================
+\section{Implementation Progress to Date}
+\label{sec:implementation}
+
+\todo{This is the section assessors weight most heavily (``evidence of progress''). Update every status below before submission and report it honestly; incomplete work flagged early is graded better than overstated progress. Add: (1) the artefact repository link and the number of commits; (2) at least one screenshot of a working view; (3) one short code excerpt or test output; (4) one early metric if available. Delete rows that do not apply.}
+
+Table~\ref{tab:progress} records progress against the plan.
+Status is one of \emph{complete}, \emph{in progress} or \emph{not started}.
+
+\begin{table}[H]
+    \centering\small
+    \caption{Progress against the plan at the interim checkpoint.}
+    \label{tab:progress}
+    \begin{tabularx}{\textwidth}{lYll}
+        \toprule
+        Objective & Work item                                                                    & Status          & Evidence                 \\
+        \midrule
+        O1        & Requirements derived from the partner brief (Section~\ref{sec:requirements}) & Complete & This report \\
+        O1        & Requirements confirmed with the STT                                          & \todoin{status} & Meeting log              \\
+        O2        & Repository, CI pipeline and project board set up                             & \todoin{status} & Repo link                \\
+        O2        & Adapter interface and simulator adapter                                      & \todoin{status} & Commit/PR                \\
+        O2        & Replay adapter                                                               & \todoin{status} & Commit/PR                \\
+        O2        & Live-rig adapter                                                             & Not started     & Blocked on STT interface \\
+        O3        & Seeded-fault trace generator                                                 & \todoin{status} & Script, sample output    \\
+        O4        & Signal-conditioning stage (first filter)                                     & \todoin{status} & Unit tests               \\
+        O5        & Alert engine                                                                 & \todoin{status} & --                       \\
+        O6        & Prototype view with two KPIs (pack voltage, current)                         & \todoin{status} & Screenshot               \\
+        O7        & Experiment 1 harness                                                         & \todoin{status} & --                       \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Completed work}\label{subsec:completed-work}
+\todoin{Describe what has been built in 2--3 short paragraphs, referring to the repository, with a screenshot (Figure) and a code excerpt or test output. Describe what works, how you know it works, and any surprises.}
+
+\subsection{Work in progress and not yet started}\label{subsec:work-in-progress-and-not-yet-started}
+\todoin{List what is partially built and what has not been started, with the reason (e.g.\ live-rig adapter blocked on interface access).}

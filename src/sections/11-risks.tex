@@ -1,0 +1,37 @@
+% =====================================================================
+% 11. Challenges, Risks and Issues
+% =====================================================================
+\section{Challenges, Risks and Issues}
+\label{sec:risks}
+
+\subsection{Issues encountered}\label{subsec:issues-encountered}
+\todoin{Describe real problems met so far and how they were handled, for example waiting on rig interface access, IT approval, or tooling problems. One short paragraph each.}
+
+The main structural challenge so far has been separating the research from the company project.
+The partner's plan centres on deployment, training and go-live, while the dissertation must answer four research questions.
+This was resolved by separating the two sets of deliverables (Table~\ref{tab:deliverables}) and scheduling the experiments explicitly (Section~\ref{sec:timeline}).
+
+\subsection{Risk register}\label{subsec:risk-register}
+\begin{table}[H]
+    \centering\small
+    \caption{Risk register (L = likelihood, I = impact; H/M/L).}
+    \label{tab:risks}
+    \begin{tabularx}{\textwidth}{YccYY}
+        \toprule
+        Risk                                                          & L & I & Mitigation                                                   & Fallback                                                                           \\
+        \midrule
+        Access to the STT rig or data interface is delayed or refused & H & H & Adapter pattern; simulator and public data from the start & All experiments on replayed and synthetic traces; live adapter becomes future work \\
+        Partner confidentiality limits what can be reported           & M & H & Agree terms early; isolate rig-specific code in one adapter & Report synthetic and public-data results only; describe the rig generically \\
+        Company deliverables crowd out research work                  & H & M & Separate deliverables; protect experiment weeks in the plan & Cut demo polish before cutting experiments \\
+        Analytical-only interface evaluation judged weak              & M & M & Combine KLM, clutter and accessibility; state limits plainly & Narrow RQ4 to task time and accessibility \\
+        Performance targets not met                                   & M & M & Downsampling at the gateway; benchmark early                 & Report the achieved envelope honestly; reduce channel count per view               \\
+        Clutter-metric or KLM tooling takes longer than planned       & M & L & Prototype on one screen early & Use one metric \\
+        Scope creep from partner feature requests                     & M & M & Change requests go through the issue board with priority & Defer to post-dissertation backlog \\
+        Illness or time loss                                          & L & H & Two-week buffer before submission                            & Minimum viable deliverable (below)                                                 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Minimum viable deliverable}\label{subsec:minimum-viable-deliverable}
+If the risks above materialise, the minimum deliverable is: the simulator and replay adapters; the processing layer with at least three filters and the alert engine; the engineer view and one other role view; and Experiments~1--3 run on synthetic and public data.
+Experiment~4 would then be reduced to the accessibility audit and KLM for the engineer view.
