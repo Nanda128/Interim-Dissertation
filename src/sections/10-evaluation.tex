@@ -4,67 +4,41 @@
 \section{Testing, Evaluation and Preliminary Results}
 \label{sec:evaluation}
 
-\subsection{Testing strategy}\label{subsec:testing-strategy}
-Software testing and research evaluation are kept separate.
-Testing checks that the artefact is correct; evaluation answers the research questions.
+Testing verifies the correctness of the software, whereas the experiments address the research questions.
+Unit tests will cover the adapters, filters, KPI calculations and alert rules, with a target of 80\% line coverage for the processing layer.
+Integration tests and multi-hour replays will verify the complete pipeline and its stability.
 
-\begin{itemize}
-    \item \textbf{Unit tests} for adapters, calibration wrappers, filters, KPI calculations and alert rules, with property-based tests for filters (for example, a constant signal must pass through unchanged).
-    Target: 80\% line coverage on the processing layer.
-    \item \textbf{Integration tests} run the full pipeline on a short replayed trace and compare the KPIs and alerts produced with expected values.
-    \item \textbf{System tests} run long replays (several hours) to check memory stability and reconnection (NFR8).
-    \item \textbf{Acceptance:} each requirement's acceptance criteria are checked at the end of the iteration that delivers it.
-    Acceptance by the STT is a company activity, not research data.
-\end{itemize}
+\textbf{Experiment 1 (RQ1)} replays data at increasing load, from a single pack at its nominal rate to several rigs at stress rates.
+It measures latency, dropped samples and browser frame rate, together with CPU and memory usage on the source machine relative to a run without the dashboard attached.
 
-\subsection{Evaluation experiments}\label{subsec:evaluation-experiments}
-All experiments run on replayed or synthetic traces with seeded faults, so every result has ground truth.
+\textbf{Experiment 2 (RQ2)} compares moving-average, exponential, median, Hampel and Kalman filters on traces containing seeded faults.
+Each filter is assessed by its root-mean-square error (RMSE) against the clean signal, its false-alarm and missed-event rates, and its detection delay.
 
-\begin{description}[leftmargin=1.2em, labelindent=0pt, font=\normalfont\bfseries]
-  \item[Experiment 1: Performance (RQ1).] A load generator replays configurations from a single pack at nominal rate up to several parallel rigs at stress rates.
-  Metrics: end-to-end latency (median and p95, from source timestamp to browser render), throughput, dropped-sample rate, browser frame rate, and CPU and memory overhead on the source host, compared with a run without the dashboard attached.
-  \item[Experiment 2: Filtering fidelity (RQ2).] Spikes, drifts and dropouts of varying amplitude and duration are seeded into traces.
-  Moving-average, exponential, median, Hampel and Kalman filters are compared on RMSE against the clean signal, false-alarm rate, missed-event rate and detection delay.
-  The result sets the default configuration per channel type.
-  \item[Experiment 3: Alert burden (RQ3).] Long replays containing seeded faults are processed with and without the alarm-management rules.
-  Metrics: average alerts per 10 minutes, percentage of time in flood, chattering and duplicate alerts, the proportion of seeded critical faults raised at the correct tier, and time-to-alert.
-  \item[Experiment 4: Analytical interface evaluation (RQ4).] Representative tasks for each role, such as ``identify the weakest cell'' and ``confirm whether the test passed'', are modelled with KLM in each role view and in a baseline log-and-plot interface, using the system response times measured in Experiment~1.
-  Visual clutter is measured from screenshots using feature congestion~\cite{rosenholtz2007clutter}.
-  Accessibility is audited with axe-core and a manual WCAG~2.2 AA checklist.
-\end{description}
+\textbf{Experiment 3 (RQ3)} processes the same traces using plain threshold alerts and using the full alert engine.
+It compares the total number of alerts, the number of chattering alerts, the proportion of seeded faults raised at the correct tier, and the time taken to raise them.
 
-\subsection{Success criteria}\label{subsec:success-criteria}
-The targets in Table~\ref{tab:success} are provisional.
-They will be confirmed with the STT and the supervisor before the experiments run, and will not be changed after results are seen.
+\textbf{Experiment 4 (RQ4)} applies KLM to representative tasks for each role, such as identifying the weakest cell or determining whether a test has passed.
+Each view is compared with a baseline representing the STT's current log-and-plot workflow.
+Visual clutter is measured from screenshots, and accessibility is assessed using axe-core and a manual WCAG~2.2 AA checklist.
 
 \begin{table}[H]
     \centering\small
-    \caption{Provisional success criteria per research question.}
+    \caption{Provisional success criteria, to be agreed before the experiments are conducted.}
     \label{tab:success}
     \begin{tabularx}{\textwidth}{lY}
         \toprule
-        RQ  & Success criterion                                                                                                                                                                                        \\
+        RQ  & Success criterion \\
         \midrule
-        RQ1 & p95 end-to-end latency $<$ 500\,ms and zero dropped samples at nominal load; source-host CPU overhead $<$ 5\%; browser $\geq$ 30 frames per second on the engineer view.                                 \\
-        RQ2 & The default filter keeps every seeded critical transient visible (missed-event rate 0\%) and reduces RMSE by at least 50\% compared with the raw signal, with detection delay $<$ 1\,s.                  \\
-        RQ3 & Average alert rate and time in flood within the ISA-18.2 benchmark levels~\cite{isa2016alarm}; zero missed critical faults; red-tier time-to-alert $<$ 1\,s.                                             \\
-        RQ4 & Predicted KLM time for each role's key tasks at least 30\% lower than the baseline; clutter score lower than the baseline; zero critical axe-core violations and a full pass on the manual AA checklist. \\
+        RQ1 & 95th-percentile latency below 500\,ms; no dropped samples; less than 5\% additional CPU load. \\
+        RQ2 & No seeded critical fault concealed; RMSE reduced by half; detection delay below 1\,s. \\
+        RQ3 & At least 50\% fewer alerts than plain thresholds; no critical fault missed. \\
+        RQ4 & Task time at least 30\% below the baseline; reduced clutter; no critical accessibility failures. \\
         \bottomrule
     \end{tabularx}
 \end{table}
 
-\todoin{Confirm the ISA-18.2/EEMUA~191 benchmark figures against the standards (via the UL library) and state the exact numbers used for RQ3.}
+No experimental results are yet available, as implementation will begin after this checkpoint.
 
-\subsection{Preliminary results}\label{subsec:preliminary-results}
-\todoin{Report any early result honestly, even if small, for example the latency of the two-KPI prototype on one replayed trace, or a first filter comparison on one seeded spike. If no measurement exists yet, say so and state when the first will be taken.}
-
-\subsection{Threats to validity}\label{subsec:threats-to-validity}
-\begin{itemize}
-    \item \textbf{Construct validity:} KLM predicts expert, error-free performance and cannot measure comprehension or perceived workload.
-    A human-subjects study with NASA-TLX~\cite{hart2006nasa} or SAGAT is proposed as future work, noting the critique of NASA-TLX~\cite{babaei2025nasatlx}.
-    \item \textbf{Internal validity:} the author builds and evaluates the artefact.
-    Mitigated by scripted measurement, pre-registered success criteria and seeded ground truth.
-    \item \textbf{External validity:} results on synthetic and public data may not match the STT rig.
-    Mitigated by calibrating the simulator's noise and rates to partner traces where permitted.
-    \item \textbf{Baseline fairness:} the log-and-plot baseline must represent current practice; it will be built from the STT's existing scripts and checked with the STT.
-\end{itemize}
+With regard to validity, KLM measures efficiency rather than comprehension, so a study involving participants is deferred to future work.
+Because the same author develops and evaluates the system, the evaluation relies on scripted measurement and criteria fixed in advance.
+Simulated data may differ from the behaviour of the real rig, and the simulator will therefore be calibrated against partner traces where possible.

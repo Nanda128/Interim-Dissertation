@@ -1,39 +1,32 @@
 % =====================================================================
 % 9. Implementation Progress to Date
 % =====================================================================
-\section{Implementation Progress to Date}
+\section{Progress to Date}
 \label{sec:implementation}
 
-\todo{This is the section assessors weight most heavily (``evidence of progress''). Update every status below before submission and report it honestly; incomplete work flagged early is graded better than overstated progress. Add: (1) the artefact repository link and the number of commits; (2) at least one screenshot of a working view; (3) one short code excerpt or test output; (4) one early metric if available. Delete rows that do not apply.}
-
-Table~\ref{tab:progress} records progress against the plan.
-Status is one of \emph{complete}, \emph{in progress} or \emph{not started}.
+The first phase of the project has consisted of research and design, and implementation will begin after this checkpoint.
+The evidence of progress is accordingly the work presented in this report, summarised in Table~\ref{tab:progress}.
 
 \begin{table}[H]
     \centering\small
-    \caption{Progress against the plan at the interim checkpoint.}
+    \caption{Progress at the interim checkpoint.}
     \label{tab:progress}
-    \begin{tabularx}{\textwidth}{lYll}
+    \begin{tabularx}{\textwidth}{Yll}
         \toprule
-        Objective & Work item                                                                    & Status          & Evidence                 \\
+        Work item & Status & Location \\
         \midrule
-        O1        & Requirements derived from the partner brief (Section~\ref{sec:requirements}) & Complete & This report \\
-        O1        & Requirements confirmed with the STT                                          & \todoin{status} & Meeting log              \\
-        O2        & Repository, CI pipeline and project board set up                             & \todoin{status} & Repo link                \\
-        O2        & Adapter interface and simulator adapter                                      & \todoin{status} & Commit/PR                \\
-        O2        & Replay adapter                                                               & \todoin{status} & Commit/PR                \\
-        O2        & Live-rig adapter                                                             & Not started     & Blocked on STT interface \\
-        O3        & Seeded-fault trace generator                                                 & \todoin{status} & Script, sample output    \\
-        O4        & Signal-conditioning stage (first filter)                                     & \todoin{status} & Unit tests               \\
-        O5        & Alert engine                                                                 & \todoin{status} & --                       \\
-        O6        & Prototype view with two KPIs (pack voltage, current)                         & \todoin{status} & Screenshot               \\
-        O7        & Experiment 1 harness                                                         & \todoin{status} & --                       \\
+        Literature and technology review & Complete for this stage & Section~\ref{sec:literature} \\
+        Requirements analysis & Complete & Section~\ref{sec:requirements} \\
+        Architecture and experimental design & Complete & Sections~\ref{sec:design},~\ref{sec:evaluation} \\
+        Database search; validation of requirements with the STT & In progress & -- \\
+        Implementation and experiments & Not started & Section~\ref{sec:timeline} \\
         \bottomrule
     \end{tabularx}
 \end{table}
 
-\subsection{Completed work}\label{subsec:completed-work}
-\todoin{Describe what has been built in 2--3 short paragraphs, referring to the repository, with a screenshot (Figure) and a code excerpt or test output. Describe what works, how you know it works, and any surprises.}
+The literature review influenced the project in three respects.
+First, it narrowed the research gap: dashboards with alerting already exist for test benches, but they have not been evaluated.
+Second, the evidence on chattering alarms~\cite{wang2016alarmoverview} established hysteresis and deduplication as core features of the alert engine.
+Third, the limited coverage of automated accessibility tools~\cite{vigo2013benchmarking} led to the addition of a manual checklist.
 
-\subsection{Work in progress and not yet started}\label{subsec:work-in-progress-and-not-yet-started}
-\todoin{List what is partially built and what has not been started, with the reason (e.g.\ live-rig adapter blocked on interface access).}
+The requirements analysis translated the goals of the brief into 19 testable requirements and revealed how much of the partner's plan was company work rather than research (Table~\ref{tab:deliverables}).

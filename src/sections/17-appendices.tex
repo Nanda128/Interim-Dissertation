@@ -1,25 +1,69 @@
 % =====================================================================
 % 17. Appendices
 % =====================================================================
-\section{Requirements Traceability}
+\section{Requirements Specification and Traceability}
 \label{sec:trace}
 
 \begin{table}[H]
     \centering\small
+    \caption{Functional requirements. Priority uses MoSCoW (M = must, S = should, C = could).}
+    \label{tab:fr}
+    \begin{tabularx}{\textwidth}{lYcl}
+        \toprule
+        ID   & Requirement                                                                                                & Priority & RQ  \\
+        \midrule
+        FR1  & Ingest data from interchangeable sources (simulator, file replay, live rig) through one interface          & M        & RQ1 \\
+        FR2  & Compute KPIs: pack voltage, cell-voltage distribution and spread, current, temperature, network build time & M        & RQ1 \\
+        FR3  & Reuse the STT's validated calibration and conversion logic rather than reimplementing it                   & M        & RQ1 \\
+        FR4  & Stream KPIs to the browser in near real time                                                               & M        & RQ1 \\
+        FR5  & Apply configurable signal conditioning per channel, with raw data always available                         & M        & RQ2 \\
+        FR6  & Raise alerts in four tiers (red, amber, blue, green) with deduplication, hysteresis and shelving           & M        & RQ3 \\
+        FR7  & Provide engineer, project-lead and demonstration views                                                     & M        & RQ4 \\
+        FR8  & Replay recorded datasets in demonstration mode when the rig is idle                                        & M        & RQ4 \\
+        FR9  & Select a test and display run status, if the STT exposes them                                              & S        & --  \\
+        FR10 & Export a snapshot summary of a run for programme reviews                                                   & S        & RQ4 \\
+        FR11 & Store KPI history for trend comparison across runs                                                         & C        & --  \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering\small
+    \caption{Non-functional requirements. Numeric targets are provisional until confirmed with the STT.}
+    \label{tab:nfr}
+    \begin{tabularx}{\textwidth}{lYl}
+        \toprule
+        ID   & Requirement                                                                                            & RQ  \\
+        \midrule
+        NFR1 & \textbf{Non-intrusive:} no write path to the rig; negligible CPU and memory overhead on rig hosts       & RQ1 \\
+        NFR2 & \textbf{Performance:} p95 end-to-end latency below 500\,ms at nominal load; no dropped samples          & RQ1 \\
+        NFR3 & \textbf{Scalability:} support several parallel rigs without redesign                                   & RQ1 \\
+        NFR4 & \textbf{Fidelity:} no seeded critical transient hidden by conditioning                                 & RQ2 \\
+        NFR5 & \textbf{Accessibility:} WCAG~2.2 AA; colour never the only cue for alert tier                          & RQ4 \\
+        NFR6 & \textbf{Security:} read-only credentials, authenticated access, no customer data exposed in demo mode   & --  \\
+        NFR7 & \textbf{Modularity:} new KPIs and data sources added without changing other layers                     & RQ1 \\
+        NFR8 & \textbf{Reliability:} runs for the length of a long validation test without crashing or leaking memory & RQ1 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering\small
     \caption{Traceability from the partner brief to requirements, research questions and evaluation.}
+    \label{tab:table}
     \begin{tabularx}{\textwidth}{YllY}
-\toprule
-Partner brief objective                           & Requirements   & RQ  & Evaluated by              \\
-\midrule
-Aggregate BMS KPIs in real time                   & FR2, FR4, NFR2 & RQ1 & Experiment 1              \\
-Integrate without impacting tests                 & FR1, FR3, NFR1 & RQ1 & Experiment 1 (overhead)   \\
-Filtering without misrepresenting spikes or noise & FR5, NFR4      & RQ2 & Experiment 2              \\
-Quicker anomaly detection in long runs            & FR6            & RQ3 & Experiment 3              \\
-Multiple user roles and demo mode                 & FR7, FR8, FR10 & RQ4 & Experiment 4              \\
-Modular and scalable design                       & NFR3, NFR7     & RQ1 & Experiment 1; code review \\
-Test selection and run status                     & FR9            & --  & Acceptance test           \\
-\bottomrule
-    \end{tabularx}\label{tab:table}
+        \toprule
+        Partner brief objective                           & Requirements   & RQ  & Evaluated by              \\
+        \midrule
+        Aggregate BMS KPIs in real time                   & FR2, FR4, NFR2 & RQ1 & Experiment 1              \\
+        Integrate without impacting tests                 & FR1, FR3, NFR1 & RQ1 & Experiment 1 (overhead)   \\
+        Filtering without misrepresenting spikes or noise & FR5, NFR4      & RQ2 & Experiment 2              \\
+        Quicker anomaly detection in long runs            & FR6            & RQ3 & Experiment 3              \\
+        Multiple user roles and demo mode                 & FR7, FR8, FR10 & RQ4 & Experiment 4              \\
+        Modular and scalable design                       & NFR3, NFR7     & RQ1 & Experiment 1; code review \\
+        Test selection and run status                     & FR9            & --  & Acceptance test           \\
+        \bottomrule
+    \end{tabularx}
 \end{table}
 
 
@@ -35,7 +79,3 @@ Test selection and run status                     & FR9            & --  & Accep
         \bottomrule
     \end{tabularx}\label{tab:table2}
 \end{table}
-
-
-\section{Architecture Decision Records}\label{sec:architecture-decision-records}
-\todoin{List ADRs from the artefact repository (title, date, status), e.g.\ ADR-001 Read-only adapter boundary; ADR-002 WebSocket transport; ADR-003 Time-series store.}

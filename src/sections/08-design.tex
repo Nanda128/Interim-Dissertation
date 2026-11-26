@@ -4,62 +4,47 @@
 \section{Design and Architecture}
 \label{sec:design}
 
-\subsection{High-level architecture}\label{subsec:high-level-architecture}
-The system has three layers connected by a one-way data flow (Figure~\ref{fig:architecture}). Data moves only from the rig towards the browser; no component can send commands to the rig. This makes the system a digital shadow~\cite{kritzinger2018digital} and satisfies NFR1 by construction.
+The system comprises three layers, with data flowing exclusively from the rig towards the browser (Figure~\ref{fig:architecture}).
+No component is able to issue commands to the rig, and NFR1 is therefore satisfied by the structure of the system itself.
 
 \begin{figure}[H]
     \centering
     \resizebox{\textwidth}{!}{\input{figures/architecture}}
-    \caption{High-level architecture. Arrows show the only direction data can flow. Each data source is an interchangeable adapter.}
+    \caption{High-level architecture. Arrows indicate the only direction in which data can flow.}
     \label{fig:architecture}
 \end{figure}
 
-\begin{description}[leftmargin=1.2em, labelindent=0pt, font=\normalfont\bfseries]
-  \item[Ingestion layer.] Each data source implements one adapter interface (Listing~\ref{lst:adapter}). The live-rig, simulator and replay adapters are interchangeable, so development and every experiment can run without rig access, and rig-specific code is isolated in one place.
-  \item[Processing layer.] Raw samples pass through the STT's validated calibration logic, then through a configurable conditioning stage. The KPI engine computes pack and cell metrics; the alert engine assigns tiers and applies deduplication, hysteresis and shelving. Raw and conditioned values are both kept.
-  \item[Presentation layer.] A WebSocket gateway pushes downsampled KPI frames and alert events to the browser. Role views are compositions of shared components with different defaults for detail, aggregation and alert visibility.
-\end{description}
+The \textbf{ingestion layer} encapsulates each data source in an adapter that implements a common interface (Listing~\ref{lst:adapter}).
+Because the simulator, replay files and live rig are indistinguishable to the remainder of the system, every experiment can be conducted without access to the rig, and rig-specific code is confined to a single location.
 
-\subsection{Key interface}\label{subsec:key-interface}
-\begin{lstlisting}[language=Python, caption={Data-source adapter interface (draft). Every source yields the same sample type, so downstream code never knows where data came from.}, label=lst:adapter]
-class Sample(BaseModel):
-    run_id: str
-    channel: str          # e.g. "cell_07.voltage"
-    t: datetime           # source timestamp
-    value: float          # raw, uncalibrated
+In the \textbf{processing layer}, raw samples are passed through the STT's calibration code and then through the selected filter.
+KPIs are subsequently calculated, and the alert engine determines whether an alert should be raised.
+Both raw and filtered values are retained.
 
+The \textbf{presentation layer} transmits downsampled KPI frames and alert events to the browser over WebSockets.
+The three role-specific views are composed from a shared component library, each with different default settings for detail and alert visibility.
+
+\begin{lstlisting}[language=Python, caption={Planned adapter interface. The absence of write methods ensures that the dashboard cannot affect the rig.}, label=lst:adapter]
 class SourceAdapter(Protocol):
     def describe(self) -> SourceInfo: ...   # channels, rates, units
     async def stream(self) -> AsyncIterator[Sample]: ...
-    # No write methods by design: the digital shadow is read-only.
 \end{lstlisting}
 
-\subsection{Data model}\label{subsec:data-model}
-The core entities are \textbf{Run} (one test execution and its metadata), \textbf{Channel} (a measured signal with unit, limits and conditioning settings), \textbf{Sample} (a timestamped raw value), \textbf{KPI} (a derived value per run and time window), and \textbf{Alert} (tier, rule, channel, raise and clear times, and shelved state). \todoin{Add an ER or class diagram here once the schema is implemented; diagrams do not count towards the word limit.}
-
-\subsection{Design decisions}\label{subsec:design-decisions}
 \begin{table}[H]
     \centering\small
-    \caption{Main design decisions, alternatives rejected and trade-offs.}
+    \caption{Principal design decisions and trade-offs.}
     \label{tab:decisions}
-    \begin{tabularx}{\textwidth}{lYYY}
+    \begin{tabularx}{\textwidth}{lY}
         \toprule
-        Decision           & Chosen                                 & Rejected                                        & Trade-off                                                              \\
+        Decision & Trade-off \\
         \midrule
-        Rig coupling       & Read-only adapters                     & Bidirectional twin                              & Gives up remote control; gains safety and partner acceptance           \\
-        Source abstraction & Adapter pattern~\cite{gamma1994design} & Code written directly against the STT interface & Slight indirection; enables work and experiments without rig access \\
-        Calibration        & Reuse STT logic                        & Reimplement                                     & Depends on partner code; avoids discrepancies in reported values (FR3) \\
-        Raw vs conditioned & Keep both, show both                   & Conditioned only                                & More data; prevents smoothing from silently hiding faults              \\
-        Point volume       & Downsample (M4/LTTB) at the gateway    & Send every sample                               & Extra computation; much lower browser load                             \\
-        Role views         & One component library, role presets    & Separate apps per role                          & Less tailoring freedom; one codebase to test and evaluate              \\
+        Read-only adapters, not a two-way twin & No remote control, but no risk to the rig \\
+        Reuse of STT calibration & Dependence on partner code, but consistent values \\
+        Retention of raw and filtered data & Greater storage, but faults cannot be concealed \\
+        Server-side downsampling & Greater server load, but far less browser load \\
         \bottomrule
     \end{tabularx}
 \end{table}
 
-\subsection{Open decisions}\label{subsec:open-decisions}
-\begin{itemize}
-    \item \textbf{Live-rig interface} (database polling, broker or API): resolved in the requirements meeting with the STT. The adapter boundary means this does not block other work.
-    \item \textbf{Time-series store} (TimescaleDB or InfluxDB): resolved by an ingest benchmark in Experiment~1.
-    \item \textbf{Charting library:} resolved by a frame-rate benchmark on the engineer view at the maximum expected channel count.
-    \item \textbf{Deployment target} (rig host, separate server or partner infrastructure): resolved with the partner's IT team, constrained by NFR1.
-\end{itemize}
+The live-rig interface will be agreed with the STT; owing to the adapter layer, this does not delay other work.
+The database and charting library will be confirmed through the Experiment~1 benchmarks.

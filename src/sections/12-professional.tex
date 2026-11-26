@@ -4,24 +4,12 @@
 \section{Professional, Legal, Ethical and Security Considerations}
 \label{sec:professional}
 
-\textbf{Intellectual property and confidentiality.} The work is carried out for the industry partner, which is likely to own code and results produced in the course of the work.
-A written agreement between the student, the university and the partner will set out what the dissertation may contain, how examiners access the artefact, and whether results may be published.
-To keep the research reportable, the code is structured as a generic core (pipeline, simulator, filters, alert engine, benchmarks) and a private partner adapter containing rig-specific and calibration logic.
-Customer names, product details and real thresholds will not appear in the dissertation. \todoin{Record the status of the IP and confidentiality agreement, and whether the university's confidential or embargoed submission route is needed.}
+As Analog Devices is likely to own the code and results, a written agreement will define what the dissertation may include and how examiners may access the system.
+Rig-specific code, including calibration, will be contained in a private adapter, and customer names and actual limit values will be excluded from the dissertation.
+\todoin{Record the status of the agreement.}
 
-\textbf{Data protection.} The system processes measurement data from test equipment, not personal data, so GDPR~\cite{gdpr2016} obligations are minimal.
-If user accounts are added for role views, only the minimum identity data will be stored, under the partner's access-control policy.
-
-\textbf{Licensing.} Third-party libraries will be checked for licences compatible with the partner's use; most of the planned stack is under permissive licences (MIT, BSD or Apache~2.0), but some time-series database features use source-available licences and are reviewed before adoption.
-Public datasets are used under their published terms and cited as required.
-
-\textbf{Security and safety by design.} The artefact has no write path to the rig, uses read-only credentials, and runs on the partner's network with authenticated access.
-Demonstration mode replays curated datasets so that live or confidential data is never shown to visitors by accident.
-These measures follow the defence-in-depth principles of industrial cybersecurity standards such as IEC~62443.
-
-\textbf{Accessibility.} Interfaces target WCAG~2.2 AA~\cite{w3c2023wcag}.
-Alert tiers use text labels and icons as well as colour, so they remain distinguishable for colour-blind users.
-
-\textbf{Professional standards.} The work follows the ACM Code of Ethics~\cite{acm2018code}, in particular honest reporting of results (including negative ones), respect for confidentiality, and avoiding harm.
-This is relevant because the partner's brief partly frames the GUI as a marketing asset: the dissertation reports its measured behaviour, not its intended impression.
-No machine learning is used, so responsible-AI considerations do not apply.
+The system processes test measurements rather than personal data, and GDPR is therefore of limited relevance.
+Third-party libraries and datasets will be reviewed to ensure that their licences permit the partner's intended use.
+The system has no write access to the rig, uses read-only credentials and is protected by authentication, while demonstration mode replays only selected datasets.
+Alert tiers are conveyed through labels and icons in addition to colour, in accordance with WCAG~2.2~\cite{w3c2023wcag}.
+In line with the ACM Code of Ethics~\cite{acm2018code}, the dissertation will report the system's actual performance.

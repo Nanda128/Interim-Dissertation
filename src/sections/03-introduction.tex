@@ -4,21 +4,15 @@
 \section{Introduction and Problem Statement}
 \label{sec:intro}
 
-Battery management systems monitor cell voltages, currents and temperatures, estimate state of charge, balance cells and protect packs from unsafe operating conditions~\cite{plett2015battery}.
-Because BMS failures can lead to thermal events in electric vehicles and energy-storage systems, their verification is safety-relevant and is carried out under functional-safety regimes such as ISO~26262~\cite{iso26262}.
-Verification is typically performed on hardware-in-the-loop rigs that emulate a battery pack, its loads and its fault conditions while the BMS under test responds in real time.
+Battery management systems (BMSs) monitor important data extracted from battery systems, such as cell voltages, currents and temperatures, estimate state of charge, balance cells and protect packs from unsafe conditions~\cite{plett2015battery}.
+BMS failures could cause thermal events in electric vehicles and energy storage, their verification is safety-relevant.
+Verification is typically performed on hardware-in-the-loop (HIL) rigs that emulate a battery pack, its loads and its faults while the BMS under test responds in real time.
 
-At the industry partner, the System Test Team (STT) operates such a rig.
-Its outputs are currently available only through raw data logs and engineering interfaces, so engineers rely on scripts and offline analysis to interpret results.
-This causes two problems identified in the partner's project brief.
-First, \textbf{limited visibility}: anomalies during long validation runs may only be found after a test has finished, which lengthens debugging.
-Second, \textbf{poor presentation for stakeholders}: there is no interface suitable for showing test status and key performance indicators (KPIs) to project leads or to customers during visits.
+The System Test Team (STT) at Analog Devices operates such a rig, but its data are currently accessible only through log files and engineers' own analysis scripts.
+Consequently, an anomaly occurring during a test of several hours may not be detected until the test has concluded, and no suitable means exists to present test progress to project leads or visiting customers.
+Three stakeholder groups are therefore affected: test engineers, who require detailed and reliable data during a test; project leads, who need to establish quickly whether a test has met its objectives; and customers, who seek evidence of rigorous testing without examining raw signals.
 
-Three groups are affected: test engineers, who need detailed, trustworthy real-time data; project leads, who need to see quickly whether a test met its objectives; and customers, who need a clear, credible view of the team's testing rigour.
-
-Building a dashboard is not technically novel in itself.
-What is not well understood is how to build one for this setting that is non-intrusive, faithful to noisy signals and appropriate for several audiences at once, and how to show that it is.
-Principles for supervisory displays and alarm management are well established for aviation and process control~\cite{sheridan1992telerobotics,isa2016alarm}, but they assume an operator controlling a physical process.
-Verification engineering differs: the operator supervises a \emph{test}, judging whether behaviour meets a specification.
-Whether those principles transfer to this setting, and how the trade-off between smoothing noise and preserving fault visibility should be handled, has received little attention.
-This project addresses that gap with a working artefact used as the vehicle for evaluation.
+The development of a dashboard does not in itself constitute a research contribution.
+The more substantive question is how such a system can be designed so that it does not interfere with the rig, represents noisy signals faithfully and serves audiences with differing needs, and how these properties can be demonstrated.
+Principles of supervisory display design and alarm management are well established in aviation and process control~\cite{sheridan1992telerobotics,wang2016alarmoverview}; however, they do not appear to have been evaluated in the context of verification-rig monitoring software.
+This project seeks to address that gap.
