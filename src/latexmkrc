@@ -1,0 +1,7 @@
+# Build settings for the interim report (used by latexmk).
+# The IEEE class and BibTeX style are loaded from the template folders at the
+# repository root via relative paths in main.tex; output goes to ../out so
+# that those relative paths also resolve when BibTeX runs.
+$pdf_mode = 1;
+$out_dir = '../out';
+$aux_dir = '../out';

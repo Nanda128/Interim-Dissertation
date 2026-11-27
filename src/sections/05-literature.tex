@@ -5,58 +5,42 @@
 \label{sec:literature}
 
 \subsection{Supervisory control and situation awareness}\label{subsec:supervisory-control-and-situation-awareness}
-Sheridan~\cite{sheridan1992telerobotics} defines supervisory control as the monitoring of an automated process with intermittent human intervention, a description that closely matches an engineer observing a long BMS test.
-Of the four stages of automation identified by Parasuraman et al.~\cite{parasuraman2000model}, a read-only dashboard performs only information acquisition and analysis, so that all decisions concerning the test remain with the engineer.
-Endsley's model of situation awareness~\cite{endsley1995toward} distinguishes between the perception of events, their comprehension and the projection of future states.
-These levels correspond to the needs of the different audiences: an engineer is chiefly concerned with perceiving changes in individual cells, whereas a project lead requires comprehension of whether the test is proceeding as planned.
+Sheridan~\cite{sheridan1992telerobotics} defines supervisory control as monitoring an automated process with intermittent intervention.
+This matches the science behind a BMS test.
+Of Parasuraman et al.'s four automation stages~\cite{parasuraman2000model}, the dashboard performs only information acquisition and analysis.
+Endsley's model of situation awareness~\cite{endsley1995toward} distinguishes perception, comprehension and projection.
+An engineer chiefly needs to perceive changes in individual cells, whereas a project lead or customer needs to comprehend whether the test is proceeding as planned.
 
-\subsection{Digital twins and test benches}\label{subsec:digital-twins}
-Kritzinger et al.~\cite{kritzinger2018digital} define a digital shadow as a representation that receives data automatically from a physical object but does not transmit data back to it.
-The dashboard is deliberately designed as a digital shadow, since a system without a write path to the rig cannot disturb a running test.
-Research on battery digital twins has concentrated on state estimation and degradation, and a recent review identifies the rapid creation of dashboard interfaces as an unresolved challenge~\cite{naseri2023batterydt}.
-Monitoring dashboards with alerting exist for experimental test beds, but they are described rather than evaluated~\cite{darkside2025grafana}.
-No study was identified that evaluates monitoring software for verification rigs against principles of alarm management or situation awareness.
-\todoin{Run and report a documented Scopus query to support this claim.}
+\subsection{Digital shadows and basic controls}\label{subsec:digital-twins}
+Kritzinger et al.~\cite{kritzinger2018digital} distinguishes a digital model, with no automated data exchange, a digital shadow, in which data flows automatically from the physical to the digital object, and a digital twin, in which flows are integrated in both directions and the digital object may control the physical one.
+In a digital shadow, the flow from digital to physical remains manual, which determines how the brief's ``basic controls'' are classified.
+Selecting which test run to display and showing the run status reported by the STT act only on the digital side, so the system remains a digital shadow.
+Test control itself remains with the STT's existing engineering software.
+Each command to initiate a test is initiated and confirmed by an operator.
+As Jones et al.~\cite{jones2020characterising} describes such an action undertaken by a human operator as performing the virtual-to-physical realisation step, the system is then a digital shadow with human-in-the-loop control rather than just a digital twin.
 
-\subsection{Alarm management}\label{subsec:alarm-management}
-Wang et al.~\cite{wang2016alarmoverview} report that chattering alarms, which repeatedly activate and clear within a short period, may account for between 10\% and 60\% of all alarm occurrences in process plants.
-Since a threshold alert on a noisy cell voltage would behave similarly, the alert engine merges duplicate alerts, applies hysteresis and allows engineers to shelve alerts that have already been acknowledged.
-Alert colours follow the aviation convention of red for warnings and amber for cautions~\cite{faa2010alerting}, with blue reserved for advisories.
+A recent review of battery digital twins identifies the rapid creation of dashboard interfaces as an unresolved challenge~\cite{naseri2023batterydt}.
+Monitoring dashboards exist for experimental test beds, but they are described rather than evaluated~\cite{darkside2025grafana}.
+We were unable to identify studies that evaluate verification-rig monitoring software against supervisory-display or situation-awareness principles.
 
 \subsection{Signal conditioning}\label{subsec:signal-conditioning}
-The partner's brief requires that filtering should not misrepresent ``short spikes or noise''.
-Moving-average and exponential filters suppress noise at low computational cost but attenuate and delay abrupt changes.
-Median and Hampel filters remove isolated outliers while preserving sharp edges, although they may also remove a genuine single-sample spike.
-Kalman filters are widely applied to BMS state estimation~\cite{plett2015battery}, but they depend on a system model and careful tuning.
-Research on BMS sensor faults has largely evaluated model-based observers using a constant sensor bias~\cite{yu2021sensorfault}; no comparison of simpler filters on BMS data with seeded spikes, drifts and dropouts was found, and RQ2 addresses this gap.
+The brief requires that filtering should not misrepresent ``short spikes or noise''.
+Moving-average and exponential filters suppress noise cheaply but delay abrupt changes
+Alternatively, filtering to show the median data may preserve edges but may remove a genuine single-sample spike.
+Kalman filters, a type of filter with a record of use in BMS state estimation literature~\cite{STETZEL2015490}, depend on a system model and careful tuning.
+BMS sensor-fault research has largely evaluated model-based observers using a constant sensor bias~\cite{yu2021sensorfault}, and no comparison of simpler filters on BMS data with seeded spikes, drifts and dropouts was found.
+RQ2 seeks to address this gap.
 
-\subsection{Evaluation of dashboards without users}\label{subsec:dashboard-evaluation}
-Few~\cite{few2013dashboard} argues that monitoring dashboards should fit on a single screen and avoid decorative elements, which is in tension with the brief's request for a polished customer display.
-The Keystroke-Level Model (KLM) predicts expert task completion time from standard operator times, with an error of approximately 21\%~\cite{card1980keystroke}; this accuracy is sufficient for comparing alternative designs.
-The feature-congestion measure proposed by Rosenholtz et al.~\cite{rosenholtz2007clutter} estimates visual clutter from a screenshot.
-Automated WCAG~2.2~\cite{w3c2023wcag} checks cover at most half of the success criteria~\cite{vigo2013benchmarking}, and a manual checklist is therefore also employed.
+\subsection{Dashboards for stakeholders of differing expertise}\label{subsec:dashboard-evaluation}
+Bach et al.~\cite{bach2023dashboard} describes dashboard design as a trade-off between abstraction, screen space and interaction, noting that novice users need clear layout, little interaction and less information, whereas experts need more data.
+This supports a workload-aware design, in which each view presents only the detail its audience can readily interpret.
+Since perceived aesthetics shape perceived usability~\cite{tractinsky2000beautiful} and moderate embellishment does not reduce comprehension~\cite{bateman2010useful}, the customer view can be polished if its data encodings are unchanged, while Few's caution against decoration~\cite{few2013dashboard} could apply to the other views.
+
+Without a user study, workload is assessed through analytical proxies.
+The Keystroke-Level Model (KLM) predicts expert task time with an error of approximately 21\%~\cite{card1980keystroke}, which offers the best performance model for comparing designs and feature congestion~\cite{rosenholtz2007clutter} estimates clutter from a screenshot.
+Automated WCAG~2.2~\cite{w3c2023wcag} checks cover at most half of the success criteria~\cite{vigo2013benchmarking}, so a manual checklist is also used.
 
 \subsection{Existing tools and technology choices}\label{subsec:tech}
-Commercial HIL software, such as that supplied by dSPACE and NI, provides instrument panels intended for the engineers conducting a test and is tied to the vendor's hardware.
-Grafana is the most credible alternative, as it supports time-series panels and alerting with minimal development effort.
-However, it lacks built-in support for shelving and hysteresis, and it is poorly suited to producing distinct views for different audiences; it is therefore adopted as a comparison baseline rather than as the implementation platform.
-Table~\ref{tab:tech} summarises the principal technology decisions.
-
-\begin{table}[H]
-    \centering\small
-    \caption{Technology decisions.}
-    \label{tab:tech}
-    \begin{tabularx}{\textwidth}{llY}
-        \toprule
-        Decision & Choice & Rationale \\
-        \midrule
-        Transport & WebSocket & Lower latency than polling~\cite{pimentel2012websocket} \\
-        Rig ingestion & Read-only DB polling & Requires no change on the partner's side \\
-        Storage & TimescaleDB (provisional) & SQL support; a single database for runs and samples \\
-        Front end & React, canvas charts & Full control over role-specific views \\
-        Downsampling & MinMaxLTTB & Preserves peaks at low computational cost~\cite{vandonckt2023minmaxlttb} \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-The remaining review will cover a documented database search for the research gap, the BMS fault types most relevant to the STT, and benchmarks for time-series databases and chart rendering.
+The STT's existing analysis GUI, like vendor HIL software from dSPACE and NI, serves engineers analysing data.
+As the brief notes that no user-friendly dashboard yet exists, the dashboard is a separate presentation layer rather than an extension of that tool.
+Grafana supports time-series panels with little development effort but suits distinct, branded audience views poorly and so serves as a comparison baseline.

@@ -1,0 +1,207 @@
+% =====================================================================
+% 17. Appendices
+% =====================================================================
+\section{Requirements Specification and Traceability}
+\label{sec:trace}
+
+Priorities are taken from the partner's brief.
+Key objectives are ``must'' (M), conditional objectives and benefits delivered directly by the dashboard are ``should'' (S), and benefits described as later additions are ``could'' (C).
+
+\begin{table}[H]
+    \centering\small
+    \caption{Functional requirements.}
+    \label{tab:fr}
+    \begin{tabularx}{\columnwidth}{lYcl}
+        \toprule
+        ID   & Requirement                                                                                                                                         & Priority & RQ  \\
+        \midrule
+        FR1  & Ingest data from interchangeable sources (STT database, logger output or API; simulator; replay) through one interface & M & RQ1 \\
+        FR2  & Compute the brief's KPIs: pack voltage, cell-voltage distribution, current and network build time & M & RQ1 \\
+        FR3  & Reuse the STT's validated calibration and conversion logic rather than reimplementing it & M & - \\
+        FR4  & Update KPIs in near real time                                                                                                                       & M        & RQ1 \\
+        FR5  & Apply configurable filtering per channel, with raw data always available                                                                            & M        & RQ2 \\
+        FR6  & Present KPIs through charts, gauges and status indicators                                                                                           & M        & RQ3 \\
+        FR7  & Provide customer demonstration, project-lead and engineer monitoring views with different levels of detail, complementing the existing analysis GUI & M & RQ3 \\
+        FR8  & Support demonstrations on live tests and on prepared datasets when the STT is not running & M & RQ3 \\
+        FR9  & Provide basic controls for test selection and run status, contingent on the STT's capabilities & S & - \\
+        FR10 & Generate snapshot summaries or exportable reports of test results for programme reviews & S & RQ3 \\
+        FR11 & Store KPI history to support long-term trending across runs                                                                                         & C        & -  \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering\small
+    \caption{Non-functional requirements. Numeric targets are provisional until confirmed with the STT.}
+    \label{tab:nfr}
+    \begin{tabularx}{\columnwidth}{lYl}
+        \toprule
+        ID   & Requirement                                                                                                              & RQ  \\
+        \midrule
+        NFR1 & No automated write path to the rig, with any command operator-initiated.
+        Negligible load on STT hosts & RQ1 \\
+        NFR2 & 95th-percentile end-to-end latency below 500\,ms at nominal load; no dropped samples & RQ1 \\
+        NFR3 & Support several parallel tests without redesign                                                    & RQ1 \\
+        NFR4 & No seeded critical transient hidden by filtering                                                      & RQ2 \\
+        NFR5 & Accessibility informed by WCAG~2.2 AA, colour never the only cue for status                                                & RQ3 \\
+        NFR6 & Read-only credentials and authenticated access, with only selected KPIs in the demonstration view & - \\
+        NFR7 & New KPIs and data sources can be added without changing other layers & RQ1 \\
+        NFR8 & Runs for the length of a long validation test without crashing or leaking memory & RQ1 \\
+        NFR9 & Displayed KPIs agree with the STT's validated software within agreed tolerances & - \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering\footnotesize
+    \caption{Traceability from the partner brief to requirements and evaluation.}
+    \label{tab:table}
+    \begin{tabularx}{\columnwidth}{@{}Y>{\raggedright\arraybackslash}p{1.6cm}@{\hspace{4pt}}l@{\hspace{4pt}}>{\raggedright\arraybackslash}p{2.0cm}@{}}
+        \toprule
+        Partner brief objective                           & Requirements        & RQ  & Evaluated by                  \\
+        \midrule
+        Aggregate BMS KPIs in real time                   & FR2, FR4, FR6, NFR2 & RQ1 & Experiment 1                  \\
+        Integrate without impacting tests                 & FR1, NFR1           & RQ1 & Experiment 1 (overhead)       \\
+        Reflect true test data                            & FR3, NFR9           & -  & KPI verification              \\
+        Filtering without misrepresenting spikes or noise & FR5, NFR4           & RQ2 & Experiment 2                  \\
+        Multiple user roles and demonstration mode        & FR7, FR8            & RQ3 & Experiment 3                  \\
+        Basic controls                                    & FR9                 & -  & Acceptance test               \\
+        Snapshot summaries and long-term trending         & FR10, FR11          & RQ3 & Experiment 3; acceptance test \\
+        Modular and scalable design                       & NFR3, NFR7          & RQ1 & Experiment 1; code review     \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+
+\section{Supporting Tables}
+\label{sec:tables}
+
+This appendix contains the tables referred to in the body of the report.
+
+\begin{table}[H]
+    \centering\small
+    \caption{Principal design decisions and trade-offs.}
+    \label{tab:decisions}
+    \begin{tabularx}{\columnwidth}{YY}
+        \toprule
+        Decision                                       & Trade-off                                                       \\
+        \midrule
+        Read-only adapters, human-in-the-loop controls & No automated control, but no risk to the rig                    \\
+        Reuse of STT calibration                       & Dependence on partner code, but consistent values               \\
+        Metrics, not waveforms, sent to the interface  & No raw-signal analysis, but far less rendering load             \\
+        Complement, not duplicate, the existing GUI    & Less engineer functionality, but no overlap with existing tools \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering\small
+    \caption{Progress at the interim checkpoint.}
+    \label{tab:progress}
+    \begin{tabularx}{\columnwidth}{Yll}
+        \toprule
+        Work item                                               & Status                  & Location                                        \\
+        \midrule
+        Literature and technology review                        & Complete for this stage & Section~\ref{sec:literature}                    \\
+        Requirements analysis                                   & Complete                & Section~\ref{sec:requirements}                  \\
+        Architecture and experimental design                    & Complete                & Sections~\ref{sec:design},~\ref{sec:evaluation} \\
+        Database search; requirements confirmation with the STT & In progress             & -                                               \\
+        Implementation and experiments                          & Not started             & Section~\ref{sec:timeline}                      \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering\small
+    \caption{Risk register (L = likelihood, I = impact).}
+    \label{tab:risks}
+    \begin{tabularx}{\columnwidth}{YccY}
+        \toprule
+        Risk                                      & L & I & Mitigation and fallback                                                                                     \\
+        \midrule
+        STT interface delayed or limited          & H & H & Conduct all experiments on simulated and replayed data                                                      \\
+        Confidentiality restricts reporting       & M & H & Confine STT-specific code to one adapter; report public-data results; agree use of existing-GUI screenshots \\
+        Customer-facing polish displaces research & H & M & Embed experiments in the plan; reduce engineer-view features before demo quality                            \\
+        Analytical evaluation considered weak     & M & M & Combine three measures and state their limitations                                                          \\
+        Performance targets not met               & M & M & Send metrics only; benchmark early; report the limits reached                                               \\
+        Illness or loss of time                   & L & H & Complete experiments by week 13; minimum viable version                                                     \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]
+    \centering\small
+    \caption{Proposed chapters.}
+    \label{tab:chapters}
+    \begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{2.4cm}Yr@{}}
+        \toprule
+        Chapter                     & Content                                                                       & Words           \\
+        \midrule
+        1 Introduction              & Problem, aim, research questions                                              & 1,500           \\
+        2 Related work              & Supervisory control, digital shadows, filtering, multi-stakeholder dashboards & 4,000 \\
+        3 Requirements              & Personas, requirements, scope                                                 & 1,500           \\
+        4 Methodology               & Data, experiments, success criteria                                           & 2,000           \\
+        5 Design and implementation & Architecture and principal decisions                                          & 3,500           \\
+        6 Results                   & Experiments 1--3 and KPI verification                                         & 3,000           \\
+        7 Discussion                & Answers to the research questions, limitations                                & 2,000           \\
+        8 Conclusion                & Contributions and future work                                                 & 1,000           \\
+        \midrule
+        & \textbf{Total}                                                                & \textbf{18,500} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+
+\onecolumn
+
+
+\section{Project Timeline}
+\label{sec:gantt}
+
+Figure~\ref{fig:gantt} shows the plan for completion referred to in Section~\ref{sec:timeline}.
+
+\begin{figure}[H]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{ganttchart}[
+            hgrid, vgrid={*1{draw=black!15}},
+            x unit=0.62cm, y unit chart=0.55cm, y unit title=0.6cm,
+            title height=1,
+            title label font=\scriptsize\bfseries,
+            bar label font=\small, group label font=\small\bfseries,
+            milestone label font=\small\itshape,
+            bar/.append style={fill=accent!70, draw=accent},
+            group/.append style={fill=black!70},
+            milestone/.append style={fill=orange!90!black, draw=orange!60!black},
+            bar height=0.55, group peaks height=0.2,
+        ]{1}{16}
+  \gantttitlelist{1,...,16}{1} \\
+  \ganttgroup{Requirements confirmation}{1}{2} \\
+  \ganttbar{KPIs and STT interface confirmed}{1}{2} \\
+  \ganttgroup{Prototype and architecture}{3}{5} \\
+  \ganttbar{Simulator, replay adapter and CI}{3}{4} \\
+  \ganttbar{Two-KPI prototype (pack voltage, current)}{4}{5} \\
+  \ganttmilestone{M1: Prototype}{5} \\
+  \ganttgroup{Core development}{6}{10} \\
+  \ganttbar{STT adapter, KPI service, basic controls}{6}{8} \\
+  \ganttbar{Role views and demonstration datasets}{6}{10} \\
+  \ganttbar{Exp.\ 2: Filtering (recorded traces)}{8}{10} \\
+  \ganttmilestone{M2: Feature freeze}{10} \\
+  \ganttgroup{Testing and iteration}{11}{13} \\
+  \ganttbar{Live STT test; KPI verification}{11}{12} \\
+  \ganttbar{Exp.\ 1: Performance}{11}{12} \\
+  \ganttbar{Exp.\ 3: Interface evaluation}{12}{13} \\
+  \ganttmilestone{M3: Evaluation complete}{13} \\
+  \ganttgroup{Deployment and go-live (company)}{14}{16} \\
+  \ganttbar[bar/.append style={fill=black!25, draw=black!40}]{Deployment and training}{14}{15} \\
+  \ganttbar[bar/.append style={fill=black!25, draw=black!40}]{Go-live and demonstration preparation}{16}{16} \\
+  \ganttgroup{Write-up}{1}{16} \\
+  \ganttbar{Continuous writing}{1}{13} \\
+  \ganttbar{Analysis and first full draft}{13}{16} \\
+  \ganttmilestone{M4: Draft to supervisor and partner}{16}
+        \end{ganttchart}%
+    }
+    \caption{Plan for completion, aligned with the partner's 16-week plan.}
+    \label{fig:gantt}
+\end{figure}
+

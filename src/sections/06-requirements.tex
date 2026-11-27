@@ -4,18 +4,16 @@
 \section{Requirements and Scope}
 \label{sec:requirements}
 
-The requirements were derived from the partner's project brief.
-Each goal was decomposed into testable requirements linked to a research question, which will be validated with the STT before implementation.
-The complete specification of 11 functional and 8 non-functional requirements is provided in Appendix~\ref{sec:trace}.
+The requirements were derived from the partner's brief and will be validated with the STT during requirements confirmation, alongside a review of the existing analysis GUI\@.
+The priorities of the project should follow the brief, where key objectives are a ``must'', conditional objectives and benefits delivered directly are ``should''s, and benefits described as later additions are ``could''s.
+The full specification of 11 functional and 9 non-functional requirements is given in Appendix~\ref{sec:trace}.
 
-Three personas were defined.
-The \textbf{test engineer} requires visibility of every cell, raw and filtered signals side by side, and early warning of anomalies.
-The \textbf{project lead} requires a clear pass or fail outcome supported by the key figures.
-The \textbf{customer} encounters the system during a laboratory visit, where it is presented by an engineer.
+Three personas were defined, ordered by the priority the brief gives them.
+The customer, who may have little technical background, sees the system during a laboratory visit.
+An engineer seeks to present live behaviour such as the effect of a load increase on current.
+The project lead requires a clear pass or fail outcome with the key figures, while a test engineer requires an at-a-glance view of several live KPIs during long runs, with detailed analysis remaining in the existing analysis GUI\@.
 
-The essential functional requirements are interchangeable data sources (FR1), KPIs such as pack voltage and cell-voltage spread (FR2), reuse of the STT's calibration code (FR3), near-real-time streaming (FR4), filtering with raw data always retained (FR5), the alert engine (FR6), three role-specific views (FR7) and demonstration replay (FR8).
-The principal non-functional requirement is that the dashboard never writes to the rig and imposes negligible load on it (NFR1).
-Further targets include an end-to-end latency below 500\,ms (NFR2) and compliance with WCAG~2.2 AA (NFR5).
-
-The project does not modify test procedures or hardware, control the rig, employ machine learning or involve human participants.
-Deployment and training constitute company work and fall outside the scope of the dissertation.
+The ``must'' requirements include the brief's four KPIs (FR2), reuse of the STT's calibration code (FR3), near-real-time charts, gauges and status indicators (FR4, FR6), three role-specific views (FR7) and a demonstration mode (FR8).
+Basic controls for test selection and run status (FR9) and exportable snapshot summaries (FR10) are ``should'' requirements, while KPI history for long-term trending (FR11) is a ``could'' requirement.
+The key Non-Functional Requirements are that the dashboard has no automated write path to the rig (NFR1) and that its values agree with the STT's validated software (NFR9).
+The project does not modify test procedures or hardware, employ machine learning or involve human participants.

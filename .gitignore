@@ -3,6 +3,8 @@ out
 *.pdf
 Interim-Dissertation.iml
 .idea/
+conference-latex-template/
+IEEEtranBST2/
 
 # LaTeX build intermediates
 *.aux

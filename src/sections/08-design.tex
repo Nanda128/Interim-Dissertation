@@ -4,47 +4,30 @@
 \section{Design and Architecture}
 \label{sec:design}
 
-The system comprises three layers, with data flowing exclusively from the rig towards the browser (Figure~\ref{fig:architecture}).
-No component is able to issue commands to the rig, and NFR1 is therefore satisfied by the structure of the system itself.
+Data flows through the system from the STT towards the user interface (Figure~\ref{fig:architecture}).
+No component sends data to the rig automatically, so NFR1 is satisfied by design.
+The only return path is an optional, operator-initiated command (Section~\ref{subsec:digital-twins}).
 
-\begin{figure}[H]
+\begin{figure*}[!t]
     \centering
     \resizebox{\textwidth}{!}{\input{figures/architecture}}
-    \caption{High-level architecture. Arrows indicate the only direction in which data can flow.}
+    \caption{High-level architecture. Solid arrows show automatic data flow, dashed arrows are the optional human-in-the-loop control path.}
     \label{fig:architecture}
-\end{figure}
+\end{figure*}
 
-The \textbf{ingestion layer} encapsulates each data source in an adapter that implements a common interface (Listing~\ref{lst:adapter}).
-Because the simulator, replay files and live rig are indistinguishable to the remainder of the system, every experiment can be conducted without access to the rig, and rig-specific code is confined to a single location.
+\subsection{Proposed ingestion design}\label{subsec:ingestion-design}
+Following the brief, the proposed design takes metrics rather than raw waveforms from the STT's software layer, in four layers.
+\begin{enumerate}
+    \item The original data source will be the rig, though its test software, logger or database are left untouched.
+    \item Depending on what the STT exposes, an adapter reads its database through a read-only account, reads logger files without locking them, or subscribes to a streaming API\@.
+    \item A back-end service applies the STT's calibration code unchanged, filters each channel and computes windowed KPIs, producing one stream per test run so that parallel tests remain separate.
+    \item Only KPI streams are passed to the user interface through a streaming interface, while raw data remain in the STT's own systems.
+\end{enumerate}
 
-In the \textbf{processing layer}, raw samples are passed through the STT's calibration code and then through the selected filter.
-KPIs are subsequently calculated, and the alert engine determines whether an alert should be raised.
-Both raw and filtered values are retained.
+\subsection{Workload-aware role views}\label{subsec:role-views}
+The views share a component library, but each selects a level of abstraction suited to its audience.
+The customer demonstration view, given priority by the brief, uses large values, gauges and status indicators in a branded layout with minimal interaction, showing live tests during visits and prepared datasets when the STT is not running.
+The project-lead view shows aggregated KPIs and a pass or fail summary, and the engineer monitoring view shows several live KPIs at a glance, leaving detailed analysis to the existing GUI\@.
+All three views display the same calibrated values, so that differences in polish never become differences in data.
+The principal design decisions and their trade-offs are summarised in Table~\ref{tab:decisions} (Appendix~\ref{sec:tables}).
 
-The \textbf{presentation layer} transmits downsampled KPI frames and alert events to the browser over WebSockets.
-The three role-specific views are composed from a shared component library, each with different default settings for detail and alert visibility.
-
-\begin{lstlisting}[language=Python, caption={Planned adapter interface. The absence of write methods ensures that the dashboard cannot affect the rig.}, label=lst:adapter]
-class SourceAdapter(Protocol):
-    def describe(self) -> SourceInfo: ...   # channels, rates, units
-    async def stream(self) -> AsyncIterator[Sample]: ...
-\end{lstlisting}
-
-\begin{table}[H]
-    \centering\small
-    \caption{Principal design decisions and trade-offs.}
-    \label{tab:decisions}
-    \begin{tabularx}{\textwidth}{lY}
-        \toprule
-        Decision & Trade-off \\
-        \midrule
-        Read-only adapters, not a two-way twin & No remote control, but no risk to the rig \\
-        Reuse of STT calibration & Dependence on partner code, but consistent values \\
-        Retention of raw and filtered data & Greater storage, but faults cannot be concealed \\
-        Server-side downsampling & Greater server load, but far less browser load \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-The live-rig interface will be agreed with the STT; owing to the adapter layer, this does not delay other work.
-The database and charting library will be confirmed through the Experiment~1 benchmarks.

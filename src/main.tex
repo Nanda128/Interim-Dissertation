@@ -2,56 +2,44 @@
 %! Date = 22/11/2026
 % =====================================================================
 %  MSc Dissertation Interim Report
-%  Build (from src/):  latexmk -pdf main.tex
-%     or:  pdflatex main -> bibtex main -> pdflatex main -> pdflatex main
+%  Formatted with the IEEE conference template (IEEEtran.cls) and the
+%  IEEEtran BibTeX style, both loaded from the template folders at the
+%  repository root:
+%    ../conference-latex-template/IEEE-conference-template-062824/IEEEtran.cls
+%    ../IEEEtranBST2/IEEEtran.bst
 %
-%  Red boxed [TODO] notes mark text that must be completed or checked
-%  before submission. Set \drafttrue to \draftfalse to hide them, then
-%  check the PDF for any remaining gaps.
+%  Build (from src/):  latexmk -pdf main.tex   (settings in src/latexmkrc)
+%     or:  pdflatex main -> bibtex main -> pdflatex main -> pdflatex main
 % =====================================================================
-\documentclass[11pt,a4paper]{article}
+\documentclass[conference,a4paper]{../conference-latex-template/IEEE-conference-template-062824/IEEEtran}
+\IEEEoverridecommandlockouts
 
-% ---------- Packages ----------
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\IfFileExists{lmodern.sty}%
-{\usepackage{lmodern}\usepackage{microtype}}%
-{\usepackage[expansion=false]{microtype}}
-\usepackage[margin=2.5cm]{geometry}
-\usepackage{amsmath}
+% ---------- Packages (as in the IEEE template, plus those this report needs) ----------
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
-\usepackage{longtable}
 \usepackage{enumitem}
-\usepackage{xcolor}
 \usepackage{float}
-\usepackage{caption}
 \usepackage{listings}
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,fit,backgrounds,shapes.geometric}
 \usepackage{pgfgantt}
-\usepackage{titlesec}
 \usepackage[hidelinks]{hyperref}
-\usepackage{cite}
 
 % ---------- Styling ----------
 \definecolor{accent}{HTML}{1F4E79}
 \definecolor{todo}{HTML}{C00000}
 \definecolor{codebg}{HTML}{F5F7FA}
-\titleformat{\section}{\large\bfseries\color{accent}}{\thesection}{0.8em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.6em}{}
-\setlength{\parskip}{0.45em}
-\setlength{\parindent}{0pt}
-\setlength{\emergencystretch}{2em}
-\setlist{itemsep=2pt, topsep=4pt}
-\renewcommand{\arraystretch}{1.2}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
-\captionsetup{font=small, labelfont=bf}
+\setlist{itemsep=1pt, topsep=3pt}
 
 \lstset{
-    basicstyle=\ttfamily\footnotesize,
+    basicstyle=\ttfamily\scriptsize,
     backgroundcolor=\color{codebg},
     frame=single, rulecolor=\color{black!15},
     breaklines=true, columns=fullflexible,
@@ -63,6 +51,7 @@
 % ---------- Draft markers ----------
 \newif\ifdraft
 \drafttrue
+\newcommand{\todoin}[1]{\ifdraft{\color{todo}\footnotesize[\textbf{TODO:} #1]}\fi}
 
 % ---------- Administrative details (edit here) ----------
 \newcommand{\reporttitle}{Role-Adaptive Digital Shadow Dashboard for Real-Time Battery Management System Verification}
@@ -82,10 +71,8 @@
 \begin{document}
 
     \input{sections/01-title}
+    \maketitle
     \input{sections/02-abstract}
-
-    \tableofcontents
-    \clearpage
 
     \input{sections/03-introduction}
     \input{sections/04-aims}
@@ -101,12 +88,12 @@
     \input{sections/14-timeline}
     \input{sections/15-structure}
 
-    \clearpage
-    \bibliographystyle{ieeetr}
+    \bibliographystyle{../IEEEtranBST2/IEEEtran}
     \bibliography{main}
 
     \clearpage
-    \appendix
-    \input{sections/17-appendices}
+    \raggedbottom
+    \appendices
+    \input{sections/16-appendices}
 
 \end{document}

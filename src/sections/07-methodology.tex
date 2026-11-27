@@ -6,16 +6,12 @@
 
 The project adopts Design Science Research~\cite{hevner2004design}, in which an artefact is constructed to address a practical problem and is subsequently subjected to rigorous evaluation.
 The evaluation is entirely system-based.
-Each experiment uses recorded or simulated data containing faults introduced at known times, so that results can be verified against a known ground truth and reproduced by re-running the associated script.
+Each experiment uses recorded or simulated data with faults at known times, so results can be checked against ground truth and reproduced.
 Success criteria are fixed before any results are obtained.
 
 Most of the data will be produced by a BMS simulator developed for this project, while the NASA battery data set~\cite{saha2007battery} will be replayed to provide realistic background signals.
-The simulator allows the number of cells, sample rate, noise level and seeded faults to be configured.
 Partner traces will be used internally only, and reported results will be based on simulated or public data unless the partner agrees otherwise.
 
-Development is organised into two-week iterations, with each feature tracked as a GitHub issue with defined acceptance criteria.
-The backend is implemented in Python using FastAPI, and the front end in React with TypeScript.
-A continuous integration pipeline will perform linting, type checking, unit testing and axe-core accessibility checks on each pull request.
+Development uses two-week iterations, with live feature tracking, and continuous integration tests and automated accessibility checks.
 
 As no human participants are involved and no personal data are collected, ethics approval is not expected to be required.
-\todoin{Confirm with the supervisor.}

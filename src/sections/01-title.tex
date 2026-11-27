@@ -1,27 +1,14 @@
 % =====================================================================
-% 1. Title Page and Administrative Details
+% 1. Title and Administrative Details (IEEE title block)
 % =====================================================================
-\begin{titlepage}
-    \centering
-    {\small\scshape University of Limerick\\Department of Computer Science and Information Systems\par}
-    \vspace{2.5cm}
-    {\Large\scshape MSc Dissertation Interim Report\par}
-    \vspace{1cm}
-    {\LARGE\bfseries\color{accent}\reporttitle\par}
-    \vspace{2cm}
+\title{\reporttitle\\
+{\normalsize MSc Dissertation Interim Report}
+\thanks{Supervisor: \supervisorname\ (\supervisoremail). Industry partner: \industrypartner. Submitted \submissiondate.}
+}
 
-    \begin{tabularx}{0.85\textwidth}{@{}lY@{}}
-        \toprule
-        Student             & \studentname                                                                             \\
-        Student number      & \studentid                                                                               \\
-        Programme           & \programme                                                                               \\
-        Supervisor          & \supervisorname\ (\href{mailto:\supervisoremail}{\texttt{\supervisoremail}})             \\
-        Industry partner    & \industrypartner                                                                         \\
-        Word count          & \wordcount\ (excluding title page, abstract, tables, figures, references and appendices) \\
-        Report repository   & \reportrepo                                                                              \\
-        Submitted           & \submissiondate                                                                          \\
-        \bottomrule
-    \end{tabularx}
-
-    \vfill
-\end{titlepage}
+\author{\IEEEauthorblockN{\studentname}
+\IEEEauthorblockA{\textit{\programme} \\
+\textit{University of Limerick}\\
+Limerick, Ireland \\
+Student number: \studentid}
+}

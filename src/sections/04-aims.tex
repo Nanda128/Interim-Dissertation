@@ -4,40 +4,24 @@
 \section{Aims, Objectives and Research Questions}
 \label{sec:aims}
 
-The aim of this project is to design, implement and evaluate a read-only dashboard that provides engineers, project leads and customers with an accurate and timely view of BMS tests, without interfering with the test rig.
-The project is classified as hybrid, in that the system is developed as the means of answering four research questions.
+The aim of this project is to implement and evaluate a customer-facing, read-only dashboard that gives a variety of stakeholders from engineers, to project leads, to customers an accurate and timely view of BMS tests without interfering with the test rig.
+The project is classified as hybrid, in that the system is developed as the means of answering three research questions.
 
 \begin{description}[leftmargin=1.2em, labelindent=0pt, font=\normalfont\bfseries]
-    \item[RQ1.] Can a read-only streaming pipeline with interchangeable data adapters deliver KPIs in near real time without measurably affecting the test rig?
-    \item[RQ2.] Which filtering methods reduce measurement noise while preserving the visibility of genuine fault transients?
-    \item[RQ3.] Can a tiered alert scheme with deduplication, hysteresis and shelving reduce the number of alerts without missing critical faults?
-    \item[RQ4.] Do role-specific views reduce predicted task time and visual clutter while satisfying accessibility requirements?
+    \item[RQ1.] Can a read-only, adapter-based ingestion pipeline deliver the partner-provided brief's KPIs in near real time without measurably affecting the test rig?
+    \item[RQ2.] Which filtering methods reduce measurement noise while preserving the visibility of genuine fault indicators?
+    \item[RQ3.] Do role-specific views, matched to each stakeholder group's technical expertise and led by a customer demonstration view, reduce predicted task time and visual clutter while satisfying accessibility requirements?
 \end{description}
 
 The objectives are as follows:
 \begin{enumerate}[label=\textbf{O\arabic*}]
-    \item to derive a documented set of requirements from the partner's project brief;
-    \item to implement simulator, replay and live-rig adapters behind a common interface;
-    \item to generate test traces containing spikes, drifts and dropouts at known times;
-    \item to implement and compare at least four filtering methods;
-    \item to implement the alert engine and the three role-specific views;
-    \item to conduct the four experiments described in Section~\ref{sec:evaluation} and to report the results against the criteria in Table~\ref{tab:success}.
+    \item to derive prioritised requirements from the partner's brief;
+    \item to implement read-only STT, simulator and replay adapters behind a common interface;
+    \item to generate traces with seeded faults and compare at least four filtering methods;
+    \item to implement the customer demonstration, project-lead and engineer views;
+    \item to verify the dashboard's KPIs against the STT's validated software.
 \end{enumerate}
 
 \subsection{Changes since the proposal}\label{subsec:changes-since-the-proposal}
-RQ3 has been revised to measure the reduction in alerts directly, rather than by comparison with external industrial targets.
-The original timeline also followed the partner's rollout schedule; as deployment, training and go-live are not assessed, the revised plan allocates dedicated time to the experiments (Table~\ref{tab:deliverables}).
-
-\begin{table}[H]
-    \centering\small
-    \caption{Company and research deliverables. Only the research deliverables are assessed.}
-    \label{tab:deliverables}
-    \begin{tabularx}{\textwidth}{YY}
-        \toprule
-        \textbf{Company deliverable} & \textbf{Research deliverable} \\
-        \midrule
-        GUI deployed on the STT environment & Reference architecture and adapters \\
-        Training, go-live and sign-off & Experiment scripts, datasets and results \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
+One of the proposal's four research questions has been removed because it addressed functionality not required by the partner's brief, and a verification of KPIs against the STT's software has been added.
+The timeline now follows the partner's 16-week plan, with the experiments embedded in its phases (Section~\ref{sec:timeline}).

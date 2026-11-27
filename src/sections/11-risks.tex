@@ -4,26 +4,8 @@
 \section{Challenges, Risks and Issues}
 \label{sec:risks}
 
-The principal challenge to date has been distinguishing the research from the company project, which is oriented towards deployment rather than experimentation.
-This was resolved by separating the two sets of deliverables and allocating dedicated weeks to the experiments (Section~\ref{sec:timeline}).
-Access to the rig also remains unconfirmed, which is why the design relies on a simulator and replayed data.
+The principal challenge has been reconciling the research with the partner's product-oriented plan, resolved by embedding each experiment in one of its phases (Section~\ref{sec:timeline}).
+The STT's data interface also remains unconfirmed, which is why the design relies on interchangeable adapters.
+The risk register, with the likelihood, impact, mitigation and fallback for each risk, is given in Table~\ref{tab:risks} (Appendix~\ref{sec:tables}).
 
-\begin{table}[H]
-    \centering\small
-    \caption{Risk register (L = likelihood, I = impact).}
-    \label{tab:risks}
-    \begin{tabularx}{\textwidth}{YccY}
-        \toprule
-        Risk & L & I & Mitigation and fallback \\
-        \midrule
-        Rig access delayed or refused & H & H & Conduct all experiments on simulated and replayed data \\
-        Confidentiality restricts reporting & M & H & Confine rig code to one adapter; report public-data results \\
-        Company work displaces research & H & M & Protect experiment weeks; reduce demonstration polish first \\
-        Analytical evaluation considered weak & M & M & Combine three measures and state their limitations \\
-        Performance targets not met & M & M & Downsample and benchmark early; report the limits reached \\
-        Illness or loss of time & L & H & Two-week buffer; minimum viable version \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-The minimum viable version comprises the simulator, three filters, the alert engine and two views, with Experiments 1 to 3 completed in full.
+The minimum viable version comprises the replay and simulator adapters, three filters, the customer demonstration and project-lead views, which serve audiences with no existing tool, and the KPI verification, with Experiments 1 and 2 completed in full.

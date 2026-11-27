@@ -1,14 +1,18 @@
 % =====================================================================
 % 2. Abstract / Executive Summary (150-250 words)
 % =====================================================================
-\section*{Abstract}
-\addcontentsline{toc}{section}{Abstract}
+\begin{abstract}
+    Battery management systems (BMS) are verified on hardware-in-the-loop (HIL) rigs that generate large volumes of sensor data.
+    At Analog Devices, the industry partner, this data is accessed through raw logs and engineering tools, including an existing analysis GUI, none of which is suited to live monitoring or to presenting results to project leads and customers.
+    This project proposes a customer-facing dashboard, designed as a digital shadow of the test rig, for stakeholders ranging from test engineers to visiting customers.
+    This dashboard seeks to investigate whether Key Performance Indicators (KPIs) can be streamed from the rig in near-real-time, and how you would filter noisy signals without concealing genuine faults.
+    In addition, would role-specific views, matched to each audience's technical expertise reduce task time or visual clutter?
+    The dashboard's values are also verified against the partner's validated software.
+    The work follows a Design Science Research approach and is evaluated without human participants, using recorded and simulated data containing faults introduced at known times.
+    At this stage, the requirements analysis, literature review, system architecture and experimental design are complete.
+    Implementation will begin with the prototype phase of the partner's plan.
+\end{abstract}
 
-Battery management systems (BMS) are verified on hardware-in-the-loop (HIL) rigs that generate large volumes of sensor data.
-At Analog Devices, the industry partner, these data are accessed through raw logs and offline scripts, so anomalies are often identified only after a run has ended and results are difficult to communicate to project leads and customers.
-
-This project proposes a read-only monitoring dashboard, designed as a digital shadow of the test rig, and uses it to investigate four questions: whether data can be streamed from the rig in near real time without affecting it; which filtering methods suppress noise without concealing genuine faults; whether alarm-handling rules can reduce the number of alerts without missing critical events; and whether role-specific views reduce task time for each audience.
-The work follows a Design Science Research approach and is evaluated without human participants, using recorded and simulated data containing faults introduced at known times.
-
-At this stage, the requirements analysis, literature review, system architecture and experimental design are complete.
-Implementation will begin after this interim checkpoint.
+\begin{IEEEkeywords}
+    battery management systems, digital shadow, hardware-in-the-loop testing, dashboard design, signal conditioning
+\end{IEEEkeywords}

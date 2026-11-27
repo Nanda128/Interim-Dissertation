@@ -4,12 +4,12 @@
 \section{Professional, Legal, Ethical and Security Considerations}
 \label{sec:professional}
 
-As Analog Devices is likely to own the code and results, a written agreement will define what the dissertation may include and how examiners may access the system.
-Rig-specific code, including calibration, will be contained in a private adapter, and customer names and actual limit values will be excluded from the dissertation.
-\todoin{Record the status of the agreement.}
+As Analog Devices is likely to own the code and results, an agreement will define what the dissertation may include and how examiners may access the system.
+STT-specific code, including calibration, will be contained in a private adapter.
+Customer names and actual limit values will be excluded, and screenshots of the existing analysis GUI will be used only with permission.
 
-The system processes test measurements rather than personal data, and GDPR is therefore of limited relevance.
-Third-party libraries and datasets will be reviewed to ensure that their licences permit the partner's intended use.
-The system has no write access to the rig, uses read-only credentials and is protected by authentication, while demonstration mode replays only selected datasets.
-Alert tiers are conveyed through labels and icons in addition to colour, in accordance with WCAG~2.2~\cite{w3c2023wcag}.
-In line with the ACM Code of Ethics~\cite{acm2018code}, the dissertation will report the system's actual performance.
+As only test measurements are processed, GDPR is of limited relevance.
+The system reads the STT through read-only credentials and is protected by authentication.
+Any operator-initiated command passes through the STT's own interface and safety interlocks.
+During visits, the demonstration view shows only KPIs selected for customers.
+Status indicators are conveyed through labels and icons in addition to colour, in accordance with WCAG~2.2~\cite{w3c2023wcag}.
